@@ -1,0 +1,1795 @@
+:root {
+    --bg: #f4f6f8;
+    --surface: #ffffff;
+    --surface-soft: #f8fafb;
+    --border: #e3e7eb;
+
+    --text: #18202a;
+    --text-soft: #69737f;
+    --text-muted: #929ba5;
+
+    --primary: #147f83;
+    --primary-dark: #0d6267;
+
+    --accent: #f4c542;
+
+    --canvas-width: 8500;
+    --canvas-height: 5000;
+
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+
+    --shadow: 0 12px 35px rgba(20, 30, 40, 0.08);
+}
+
+
+/* =========================
+   Reset
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(20, 127, 131, 0.06),
+            transparent 30%
+        ),
+        var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        "Cairo",
+        "Noto Sans Arabic",
+        Arial,
+        sans-serif;
+
+    direction: rtl;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    border: 0;
+    cursor: pointer;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+/* =========================
+   Header
+========================= */
+
+.app-header {
+    height: 82px;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    backdrop-filter: blur(18px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-icon {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+    font-weight: 900;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #14a5ad,
+            #168083
+        );
+
+    box-shadow:
+        0 7px 18px rgba(20, 127, 131, 0.22);
+}
+
+.brand-info {
+    display: flex;
+    flex-direction: column;
+
+    line-height: 1.2;
+}
+
+.brand-info h1 {
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.brand-info span {
+    color: var(--text-muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-button,
+.help-button {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 11px;
+
+    background: var(--surface-soft);
+
+    color: var(--text-soft);
+
+    border: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.icon-button {
+    font-size: 22px;
+}
+
+.help-button {
+    font-weight: 800;
+}
+
+.icon-button:hover,
+.help-button:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   Main Layout
+========================= */
+
+.app-container {
+    width: min(1700px, calc(100% - 40px));
+
+    margin: 30px auto;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(320px, 390px)
+        minmax(0, 1fr);
+
+    gap: 28px;
+
+    align-items: start;
+}
+
+
+/* =========================
+   Control Panel
+========================= */
+
+.control-panel {
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow);
+
+    padding: 25px;
+
+    position: sticky;
+    top: 108px;
+
+    max-height: calc(100vh - 130px);
+
+    overflow-y: auto;
+}
+
+.control-panel::-webkit-scrollbar {
+    width: 5px;
+}
+
+.control-panel::-webkit-scrollbar-thumb {
+    background: #d5dce2;
+    border-radius: 20px;
+}
+
+.panel-heading {
+    margin-bottom: 25px;
+}
+
+.panel-label {
+    display: inline-flex;
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    background: rgba(20, 127, 131, 0.09);
+
+    color: var(--primary);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    margin-bottom: 8px;
+}
+
+.panel-heading h2 {
+    font-size: 22px;
+    font-weight: 900;
+
+    margin-bottom: 5px;
+}
+
+.panel-heading p {
+    color: var(--text-muted);
+
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   Control Sections
+========================= */
+
+.control-section {
+    padding: 20px 0;
+
+    border-top: 1px solid var(--border);
+}
+
+.control-section:first-of-type {
+    border-top: 0;
+}
+
+.section-title {
+    display: block;
+
+    color: var(--text);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    margin-bottom: 10px;
+}
+
+.input-label {
+    margin-top: 17px;
+}
+
+
+/* =========================
+   Template Buttons
+========================= */
+
+.template-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 9px;
+}
+
+.template-option {
+    min-height: 72px;
+
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    padding: 11px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    text-align: right;
+
+    color: var(--text);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.template-option:hover {
+    transform: translateY(-2px);
+}
+
+.template-option.active {
+    border-color: var(--primary);
+
+    background: rgba(20, 127, 131, 0.07);
+}
+
+.template-option strong {
+    display: block;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.template-option small {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    margin-top: 3px;
+}
+
+.template-icon {
+    width: 34px;
+    height: 34px;
+
+    flex: 0 0 34px;
+
+    border-radius: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    color: var(--primary);
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   Inputs
+========================= */
+
+.form-select,
+.form-input,
+.form-textarea {
+    width: 100%;
+
+    background: #fbfcfd;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text);
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.form-select {
+    height: 45px;
+
+    padding: 0 12px;
+
+    cursor: pointer;
+}
+
+.form-input {
+    height: 45px;
+
+    padding: 0 13px;
+}
+
+.form-textarea {
+    resize: vertical;
+
+    min-height: 85px;
+
+    padding: 12px 13px;
+
+    line-height: 1.8;
+}
+
+.form-select:focus,
+.form-input:focus,
+.form-textarea:focus {
+    border-color: var(--primary);
+
+    background: white;
+
+    box-shadow:
+        0 0 0 3px rgba(20, 127, 131, 0.09);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: #aeb6be;
+}
+
+
+/* =========================
+   Style Options
+========================= */
+
+.section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.live-label {
+    color: #3c9b70;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    background: rgba(60, 155, 112, 0.1);
+
+    padding: 4px 8px;
+
+    border-radius: 20px;
+}
+
+.style-options {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+}
+
+.style-option {
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    padding: 7px;
+
+    color: var(--text-soft);
+
+    transition: 0.2s ease;
+}
+
+.style-option.active {
+    border-color: var(--primary);
+
+    color: var(--primary);
+
+    background: rgba(20, 127, 131, 0.05);
+}
+
+.style-preview {
+    height: 42px;
+
+    width: 100%;
+
+    border-radius: 7px;
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.style-one {
+    background:
+        linear-gradient(
+            135deg,
+            #147f83,
+            #f5d064
+        );
+}
+
+.style-two {
+    background:
+        linear-gradient(
+            135deg,
+            #303b52,
+            #a8d8d2
+        );
+}
+
+.style-three {
+    background:
+        linear-gradient(
+            135deg,
+            #eceff1,
+            #ffffff
+        );
+
+    border: 1px solid #e2e5e8;
+}
+
+.style-option span:last-child {
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   Logo Status
+========================= */
+
+.logo-status {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.logo-item {
+    min-height: 55px;
+
+    padding: 8px 10px;
+
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.logo-placeholder {
+    width: 35px;
+    height: 35px;
+
+    flex: 0 0 35px;
+
+    border-radius: 9px;
+
+    background: white;
+
+    border: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 900;
+
+    color: var(--primary);
+}
+
+.logo-item strong {
+    display: block;
+
+    font-size: 10px;
+}
+
+.logo-item small {
+    display: block;
+
+    font-size: 8px;
+
+    color: var(--text-muted);
+
+    margin-top: 2px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #51b783;
+
+    margin-right: auto;
+}
+
+
+/* =========================
+   Export
+========================= */
+
+.export-section {
+    padding-bottom: 0;
+}
+
+.export-info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 6px;
+
+    margin-bottom: 13px;
+}
+
+.export-info div {
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    padding: 8px;
+
+    text-align: center;
+}
+
+.export-info span {
+    display: block;
+
+    color: var(--text-muted);
+
+    font-size: 8px;
+
+    margin-bottom: 2px;
+}
+
+.export-info strong {
+    display: block;
+
+    font-size: 9px;
+}
+
+.export-button {
+    width: 100%;
+
+    min-height: 48px;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--primary-dark)
+        );
+
+    color: white;
+
+    font-weight: 800;
+
+    font-size: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    box-shadow:
+        0 8px 18px rgba(20, 127, 131, 0.18);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.export-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 25px rgba(20, 127, 131, 0.25);
+}
+
+.export-button:active {
+    transform: translateY(0);
+}
+
+.export-button span {
+    font-size: 18px;
+}
+
+
+/* =========================
+   Preview Area
+========================= */
+
+.preview-area {
+    min-width: 0;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow);
+
+    padding: 25px;
+}
+
+.preview-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+.preview-label {
+    display: block;
+
+    color: var(--primary);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    margin-bottom: 2px;
+}
+
+.preview-header h2 {
+    font-size: 20px;
+
+    font-weight: 900;
+}
+
+.preview-size {
+    padding: 7px 11px;
+
+    border-radius: 8px;
+
+    background: var(--surface-soft);
+
+    border: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+
+    direction: ltr;
+}
+
+
+/* =========================
+   Canvas Wrapper
+========================= */
+
+.canvas-wrapper {
+    width: 100%;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            45deg,
+            #f2f4f6 25%,
+            transparent 25%
+        ) 0 0 / 20px 20px,
+        linear-gradient(
+            -45deg,
+            #f2f4f6 25%,
+            transparent 25%
+        ) 0 0 / 20px 20px,
+        linear-gradient(
+            45deg,
+            transparent 75%,
+            #f2f4f6 75%
+        ) 0 0 / 20px 20px,
+        linear-gradient(
+            -45deg,
+            transparent 75%,
+            #f2f4f6 75%
+        ) 0 0 / 20px 20px,
+        #fafbfc;
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    overflow: hidden;
+}
+
+
+/* =========================
+   Design Canvas
+========================= */
+
+.design-canvas {
+    width: 100%;
+
+    aspect-ratio: 17 / 10;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 8px;
+
+    background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(255,255,255,0.7),
+            transparent 22%
+        ),
+        linear-gradient(
+            135deg,
+            #e9f0ee 0%,
+            #f6f7f3 48%,
+            #dce8e5 100%
+        );
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.12);
+
+    font-family:
+        "Cairo",
+        "Noto Sans Arabic",
+        Arial,
+        sans-serif;
+
+    transition:
+        background 0.4s ease;
+}
+
+
+/* =========================
+   Canvas Decorations
+========================= */
+
+.decor {
+    position: absolute;
+
+    pointer-events: none;
+}
+
+.decor-one {
+    width: 45%;
+
+    height: 100%;
+
+    left: -13%;
+
+    top: -40%;
+
+    border-radius: 50%;
+
+    background: rgba(20, 127, 131, 0.09);
+
+    transform: rotate(-20deg);
+}
+
+.decor-two {
+    width: 30%;
+
+    aspect-ratio: 1;
+
+    right: -9%;
+
+    bottom: -28%;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(20, 127, 131, 0.14);
+}
+
+.decor-three {
+    width: 16%;
+
+    aspect-ratio: 1;
+
+    left: 7%;
+
+    bottom: 10%;
+
+    border-radius: 50%;
+
+    background: rgba(244, 197, 66, 0.15);
+}
+
+
+/* =========================
+   Canvas Logos
+========================= */
+
+.canvas-logo {
+    position: absolute;
+
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-logo {
+    top: 6%;
+
+    right: 5%;
+
+    width: 10%;
+}
+
+.team-logo {
+    top: 6%;
+
+    left: 5%;
+
+    width: 10%;
+}
+
+.canvas-logo img {
+    width: 100%;
+
+    height: auto;
+
+    object-fit: contain;
+}
+
+.logo-fallback {
+    width: 100%;
+
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18%;
+
+    background: rgba(255,255,255,0.8);
+
+    border: 1px solid rgba(0,0,0,0.06);
+
+    color: var(--primary);
+
+    font-size: clamp(16px, 2vw, 35px);
+
+    font-weight: 900;
+}
+
+
+/* =========================
+   Canvas Content
+========================= */
+
+.canvas-content {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 4;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding:
+        12% 10%;
+}
+
+.subject-badge {
+    padding: 0.8% 3%;
+
+    border-radius: 100px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: clamp(9px, 1.1vw, 22px);
+
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 20px rgba(20,127,131,0.16);
+}
+
+.unit-display {
+    margin-top: 2.2%;
+
+    color: #59666b;
+
+    font-size: clamp(9px, 1.15vw, 23px);
+
+    font-weight: 700;
+}
+
+.title-decoration {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    width: 20%;
+
+    margin: 2.2% 0;
+}
+
+.title-decoration span {
+    flex: 1;
+
+    height: 2px;
+
+    background: var(--primary);
+
+    opacity: 0.3;
+}
+
+.title-decoration i {
+    width: 9px;
+    height: 9px;
+
+    transform: rotate(45deg);
+
+    background: var(--accent);
+}
+
+.lesson-title {
+    max-width: 85%;
+
+    color: #18272a;
+
+    font-size: clamp(22px, 4vw, 76px);
+
+    line-height: 1.35;
+
+    font-weight: 900;
+
+    letter-spacing: -0.025em;
+
+    text-wrap: balance;
+}
+
+.bottom-decoration {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 4%;
+}
+
+.bottom-decoration span {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    opacity: 0.4;
+}
+
+
+/* =========================
+   Canvas Footer
+========================= */
+
+.canvas-footer {
+    position: absolute;
+
+    bottom: 4%;
+
+    left: 5%;
+    right: 5%;
+
+    z-index: 6;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    color: #7a8588;
+
+    font-size: clamp(7px, 0.7vw, 14px);
+
+    font-weight: 600;
+}
+
+.footer-separator {
+    color: var(--accent);
+
+    font-weight: 900;
+}
+
+
+/* =========================
+   Preview Footer
+========================= */
+
+.preview-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 14px;
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+}
+
+.preview-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+}
+
+.status-indicator {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #4caf7a;
+
+    box-shadow:
+        0 0 0 4px rgba(76, 175, 122, 0.08);
+}
+
+.preview-ratio {
+    direction: ltr;
+}
+
+
+/* =========================
+   Modal
+========================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background: rgba(12, 18, 25, 0.55);
+
+    backdrop-filter: blur(7px);
+}
+
+.modal-content {
+    width: min(430px, 100%);
+
+    position: relative;
+
+    z-index: 2;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.2);
+
+    animation:
+        modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+
+    top: 13px;
+    left: 13px;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 9px;
+
+    background: var(--surface-soft);
+
+    color: var(--text-muted);
+
+    font-size: 20px;
+}
+
+.modal-icon {
+    display: inline-flex;
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 16px;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(20,127,131,0.08);
+
+    color: var(--primary);
+
+    font-size: 24px;
+
+    margin-bottom: 13px;
+}
+
+.modal-content h2 {
+    font-size: 20px;
+
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: var(--text-soft);
+
+    font-size: 12px;
+
+    line-height: 2;
+
+    margin-top: 7px;
+}
+
+
+/* =========================
+   Subject Color Themes
+========================= */
+
+/* التربية الإسلامية */
+.design-canvas.subject-islamic {
+    --primary: #526b45;
+    --primary-dark: #394c31;
+    --accent: #c9a227;
+
+    background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(201,162,39,0.14),
+            transparent 22%
+        ),
+        linear-gradient(
+            135deg,
+            #e9eee8,
+            #f5f2e8,
+            #dce5dc
+        );
+}
+
+
+/* تقنية المعلومات */
+.design-canvas.subject-information-technology {
+    --primary: #087f86;
+    --primary-dark: #075e65;
+    --accent: #f1c933;
+
+    background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(8,127,134,0.14),
+            transparent 22%
+        ),
+        linear-gradient(
+            135deg,
+            #e5f2f3,
+            #f5f8f8,
+            #d9e9ee
+        );
+}
+
+
+/* البلاغة */
+.design-canvas.subject-arabic-rhetoric {
+    --primary: #7d286e;
+    --primary-dark: #552052;
+    --accent: #f0c933;
+
+    background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(125,40,110,0.14),
+            transparent 22%
+        ),
+        linear-gradient(
+            135deg,
+            #f2e6ef,
+            #faf6f8,
+            #e7ddec
+        );
+}
+
+
+/* الأدب والنصوص */
+.design-canvas.subject-arabic-literature {
+    --primary: #8a6433;
+    --primary-dark: #503d2b;
+    --accent: #d9b332;
+
+    background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(138,100,51,0.14),
+            transparent 22%
+        ),
+        linear-gradient(
+            135deg,
+            #eee6d8,
+            #faf8f1,
+            #e3d8c7
+        );
+}
+
+
+/* الدراسات اللغوية */
+.design-canvas.subject-arabic-linguistics {
+    --primary: #7669a9;
+    --primary-dark: #564d82;
+    --accent: #e3bf3d;
+
+    background:
+        radial-gradient(
+            circle at 80% 15%,
+            rgba(118,105,169,0.14),
+            transparent 22%
+        ),
+        linear-gradient(
+            135deg,
+            #eeeef7,
+            #faf9fa,
+            #e4eee5
+        );
+}
+
+
+/* اللغة الإنجليزية */
+.design-canvas.subject-english {
+    --primary: #426b8c;
+    --primary-dark: #304f69;
+    --accent: #e4bf3b;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e7eef4,
+            #f8f9f9,
+            #dfe9ee
+        );
+}
+
+
+/* الرياضيات */
+.design-canvas.subject-mathematics {
+    --primary: #405d73;
+    --primary-dark: #2d4355;
+    --accent: #e0b934;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e5ebef,
+            #f8fafb,
+            #dce6ea
+        );
+}
+
+
+/* الفيزياء */
+.design-canvas.subject-electromagnetism {
+    --primary: #315f75;
+    --primary-dark: #25495c;
+    --accent: #e4c33d;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e4eef1,
+            #f8faf9,
+            #dce8e9
+        );
+}
+
+
+/* الميكانيكا */
+.design-canvas.subject-mechanics {
+    --primary: #596b73;
+    --primary-dark: #3f4d53;
+    --accent: #d8b63a;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e9edee,
+            #fafafa,
+            #e0e5e5
+        );
+}
+
+
+/* الكيمياء */
+.design-canvas.subject-chemistry {
+    --primary: #47796e;
+    --primary-dark: #31594f;
+    --accent: #e0bd38;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e4efec,
+            #f8faf8,
+            #dce8e3
+        );
+}
+
+
+/* الأحياء */
+.design-canvas.subject-biology {
+    --primary: #50805e;
+    --primary-dark: #3b6046;
+    --accent: #d7b938;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e5efe6,
+            #f9faf7,
+            #dce9df
+        );
+}
+
+
+/* الإحصاء */
+.design-canvas.subject-statistics {
+    --primary: #536d82;
+    --primary-dark: #3b4f60;
+    --accent: #dfbd3a;
+
+    background:
+        linear-gradient(
+            135deg,
+            #e6edf2,
+            #f9fafb,
+            #dfe7ec
+        );
+}
+
+
+/* =========================
+   Unit Template
+========================= */
+
+.design-canvas.template-unit .canvas-content {
+    justify-content: center;
+}
+
+.design-canvas.template-unit .subject-badge {
+    border-radius: 12px;
+}
+
+.design-canvas.template-unit .lesson-title {
+    font-size: clamp(20px, 3.3vw, 65px);
+}
+
+.design-canvas.template-unit .unit-display {
+    order: -1;
+
+    margin-bottom: 2%;
+
+    font-size: clamp(10px, 1.3vw, 26px);
+
+    color: var(--primary);
+
+    font-weight: 800;
+}
+
+
+/* =========================
+   Modern Style
+========================= */
+
+.design-canvas.style-modern {
+    background:
+        linear-gradient(
+            120deg,
+            var(--primary) 0%,
+            var(--primary-dark) 42%,
+            #eef2f1 42%
+        );
+}
+
+.design-canvas.style-modern .canvas-content {
+    align-items: flex-start;
+
+    text-align: right;
+
+    padding-right: 18%;
+    padding-left: 8%;
+}
+
+.design-canvas.style-modern .subject-badge {
+    background: var(--accent);
+
+    color: #27302f;
+}
+
+.design-canvas.style-modern .lesson-title {
+    color: #ffffff;
+
+    max-width: 90%;
+}
+
+.design-canvas.style-modern .unit-display {
+    color: rgba(255,255,255,0.75);
+}
+
+.design-canvas.style-modern .title-decoration {
+    justify-content: flex-start;
+    width: 18%;
+}
+
+.design-canvas.style-modern .title-decoration span {
+    background: white;
+}
+
+.design-canvas.style-modern .decor-one {
+    display: none;
+}
+
+
+/* =========================
+   Minimal Style
+========================= */
+
+.design-canvas.style-minimal {
+    background: #f8f8f5;
+}
+
+.design-canvas.style-minimal .decor {
+    opacity: 0.45;
+}
+
+.design-canvas.style-minimal .lesson-title {
+    color: #26302e;
+}
+
+.design-canvas.style-minimal .subject-badge {
+    background: transparent;
+
+    color: var(--primary);
+
+    border: 1px solid var(--primary);
+
+    box-shadow: none;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 1100px) {
+
+    .app-container {
+        grid-template-columns: 330px minmax(0, 1fr);
+
+        gap: 18px;
+    }
+
+    .control-panel,
+    .preview-area {
+        padding: 19px;
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .app-header {
+        padding: 0 17px;
+    }
+
+    .app-container {
+        width: min(100% - 24px, 700px);
+
+        grid-template-columns: 1fr;
+
+        margin-top: 18px;
+    }
+
+    .control-panel {
+        position: static;
+
+        max-height: none;
+
+        order: 2;
+    }
+
+    .preview-area {
+        order: 1;
+    }
+
+    .canvas-wrapper {
+        padding: 10px;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .app-header {
+        height: 70px;
+    }
+
+    .brand-icon {
+        width: 38px;
+        height: 38px;
+    }
+
+    .brand-info h1 {
+        font-size: 14px;
+    }
+
+    .app-container {
+        width: calc(100% - 16px);
+    }
+
+    .template-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 9px;
+    }
+
+    .preview-size {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    .preview-footer {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 7px;
+    }
+
+    .canvas-content {
+        padding:
+            12% 8%;
+    }
+
+    .lesson-title {
+        max-width: 92%;
+    }
+
+}
+
+
+/* =========================
+   Accessibility
+========================= */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(20,127,131,0.2);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================
+   Selection
+========================= */
+
+::selection {
+    background: rgba(20,127,131,0.18);
+
+    color: var(--text);
+  }
