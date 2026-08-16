@@ -1,521 +1,1275 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="مولد تصاميم فضاء التعليمية">
+/* =========================================================
+   فضاء | مولد التصاميم التعليمية
+   app.js — النسخة النهائية
+========================================================= */
+
+const CONFIG = {
+    exportWidth: 8500,
+    exportHeight: 5000,
+
+    defaultSubject: "islamic",
+    defaultTemplate: "lesson",
+    defaultStyle: "default",
+
+    defaultUnit: "الوحدة الأولى",
+    defaultTitle: "عنوان الدرس"
+};
+
+
+/* =========================================================
+   المواد
+========================================================= */
 
-    <title>فضاء | مولد التصاميم التعليمية</title>
+const SUBJECTS = {
 
-    <!-- الخط العربي -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    islamic: {
+        name: "التربية الإسلامية / القرآن الكريم",
+        shortName: "التربية الإسلامية",
+        className: "subject-islamic"
+    },
 
-    <!-- ملف التصميم -->
-    <link rel="stylesheet" href="style.css">
-</head>
+    "arabic-linguistics": {
+        name: "اللغة العربية — الدراسات اللغوية",
+        shortName: "الدراسات اللغوية",
+        className: "subject-arabic-linguistics"
+    },
 
-<body>
+    "arabic-literature": {
+        name: "اللغة العربية — الأدب والنصوص",
+        shortName: "الأدب والنصوص",
+        className: "subject-arabic-literature"
+    },
 
-    <!-- =========================
-         رأس الأداة
-    ========================== -->
-    <header class="app-header">
+    "arabic-rhetoric": {
+        name: "اللغة العربية — البلاغة",
+        shortName: "البلاغة",
+        className: "subject-arabic-rhetoric"
+    },
 
-        <div class="brand">
-            <div class="brand-icon">
-                ف
-            </div>
+    english: {
+        name: "اللغة الإنجليزية",
+        shortName: "اللغة الإنجليزية",
+        className: "subject-english"
+    },
 
-            <div class="brand-info">
-                <h1>مولد التصاميم</h1>
-                <span>فضاء التعليمية</span>
-            </div>
-        </div>
+    mathematics: {
+        name: "الرياضيات",
+        shortName: "الرياضيات",
+        className: "subject-mathematics"
+    },
 
-        <div class="header-actions">
-            <button type="button" class="icon-button" id="resetBtn" title="إعادة ضبط">
-                ↻
-            </button>
+    electromagnetism: {
+        name: "الفيزياء الكهرومغناطيسية",
+        shortName: "الفيزياء الكهرومغناطيسية",
+        className: "subject-electromagnetism"
+    },
 
-            <button type="button" class="help-button" id="helpBtn">
-                ؟
-            </button>
-        </div>
+    mechanics: {
+        name: "الميكانيكا",
+        shortName: "الميكانيكا",
+        className: "subject-mechanics"
+    },
 
-    </header>
+    chemistry: {
+        name: "الكيمياء",
+        shortName: "الكيمياء",
+        className: "subject-chemistry"
+    },
 
+    biology: {
+        name: "الأحياء",
+        shortName: "الأحياء",
+        className: "subject-biology"
+    },
 
-    <!-- =========================
-         المحتوى الرئيسي
-    ========================== -->
-    <main class="app-container">
+    "information-technology": {
+        name: "تقنية المعلومات",
+        shortName: "تقنية المعلومات",
+        className: "subject-information-technology"
+    },
 
-        <!-- =====================
-             لوحة التحكم
-        ====================== -->
-        <aside class="control-panel">
+    statistics: {
+        name: "الإحصاء",
+        shortName: "الإحصاء",
+        className: "subject-statistics"
+    }
 
-            <div class="panel-heading">
-                <span class="panel-label">المحرر</span>
-                <h2>إعداد التصميم</h2>
-                <p>اختر المادة والقالب وأدخل بيانات الدرس.</p>
-            </div>
+};
 
 
-            <!-- نوع التصميم -->
-            <section class="control-section">
+/* =========================================================
+   عناصر الصفحة
+========================================================= */
 
-                <label class="section-title">
-                    نوع التصميم
-                </label>
+const elements = {
 
-                <div class="template-grid">
+    subject: document.getElementById("subject"),
 
-                    <button
-                        type="button"
-                        class="template-option active"
-                        data-template="lesson"
-                    >
-                        <span class="template-icon">▣</span>
+    unitName: document.getElementById("unitName"),
 
-                        <span>
-                            <strong>تصميم درس</strong>
-                            <small>عنوان درس جديد</small>
-                        </span>
-                    </button>
+    lessonName: document.getElementById("lessonName"),
 
+    designCanvas: document.getElementById("designCanvas"),
 
-                    <button
-                        type="button"
-                        class="template-option"
-                        data-template="unit"
-                    >
-                        <span class="template-icon">▤</span>
+    previewSubject: document.getElementById("previewSubject"),
 
-                        <span>
-                            <strong>نهاية باب</strong>
-                            <small>ملخص شامل للباب</small>
-                        </span>
-                    </button>
+    previewUnit: document.getElementById("previewUnit"),
 
-                </div>
+    previewTitle: document.getElementById("previewTitle"),
 
-            </section>
+    exportBtn: document.getElementById("exportBtn"),
 
+    resetBtn: document.getElementById("resetBtn"),
 
-            <!-- المادة -->
-            <section class="control-section">
+    helpBtn: document.getElementById("helpBtn"),
 
-                <label for="subject" class="section-title">
-                    المادة
-                </label>
+    helpModal: document.getElementById("helpModal"),
 
-                <select id="subject" class="form-select">
+    closeModal: document.getElementById("closeModal"),
 
-                    <option value="islamic">
-                        التربية الإسلامية / القرآن الكريم
-                    </option>
+    modalOverlay: document.getElementById("modalOverlay"),
 
-                    <option value="arabic-linguistics">
-                        اللغة العربية — الدراسات اللغوية
-                    </option>
+    templateOptions:
+        document.querySelectorAll(".template-option"),
 
-                    <option value="arabic-literature">
-                        اللغة العربية — الأدب والنصوص
-                    </option>
+    styleOptions:
+        document.querySelectorAll(".style-option")
 
-                    <option value="arabic-rhetoric">
-                        اللغة العربية — البلاغة
-                    </option>
+};
 
-                    <option value="english">
-                        اللغة الإنجليزية
-                    </option>
 
-                    <option value="mathematics">
-                        الرياضيات
-                    </option>
+/* =========================================================
+   حالة التطبيق
+========================================================= */
 
-                    <option value="electromagnetism">
-                        الفيزياء الكهرومغناطيسية
-                    </option>
+const state = {
 
-                    <option value="mechanics">
-                        الميكانيكا
-                    </option>
+    subject: CONFIG.defaultSubject,
 
-                    <option value="chemistry">
-                        الكيمياء
-                    </option>
+    template: CONFIG.defaultTemplate,
 
-                    <option value="biology">
-                        الأحياء
-                    </option>
+    style: CONFIG.defaultStyle,
 
-                    <option value="information-technology">
-                        تقنية المعلومات
-                    </option>
+    unit: CONFIG.defaultUnit,
 
-                    <option value="statistics">
-                        الإحصاء
-                    </option>
+    title: CONFIG.defaultTitle
 
-                </select>
+};
 
-            </section>
 
+/* =========================================================
+   وظائف مساعدة
+========================================================= */
 
-            <!-- بيانات التصميم -->
-            <section class="control-section">
+function getSubjectData(subjectId) {
 
-                <label for="unitName" class="section-title">
-                    الباب / الوحدة
-                </label>
+    return SUBJECTS[subjectId] ||
+        SUBJECTS[CONFIG.defaultSubject];
 
-                <input
-                    type="text"
-                    id="unitName"
-                    class="form-input"
-                    placeholder="مثال: الوحدة الأولى"
-                    autocomplete="off"
-                >
+}
 
 
-                <label for="lessonName" class="section-title input-label">
-                    عنوان الدرس
-                </label>
+function updateStateFromInputs() {
 
-                <textarea
-                    id="lessonName"
-                    class="form-textarea"
-                    rows="3"
-                    placeholder="اكتب عنوان الدرس هنا..."
-                ></textarea>
+    state.subject =
+        elements.subject.value;
 
-            </section>
+    state.unit =
+        elements.unitName.value.trim();
 
+    state.title =
+        elements.lessonName.value.trim();
 
-            <!-- اختيار القالب -->
-            <section class="control-section">
+}
 
-                <div class="section-title-row">
 
-                    <label class="section-title">
-                        النمط
-                    </label>
+function updatePreviewText() {
 
-                    <span class="live-label">
-                        مباشر
-                    </span>
+    const subject =
+        getSubjectData(state.subject);
 
-                </div>
+    elements.previewSubject.textContent =
+        subject.shortName;
 
-                <div class="style-options">
+    elements.previewUnit.textContent =
+        state.unit ||
+        CONFIG.defaultUnit;
 
-                    <button
-                        type="button"
-                        class="style-option active"
-                        data-style="default"
-                    >
-                        <span class="style-preview style-one"></span>
-                        <span>أساسي</span>
-                    </button>
+    elements.previewTitle.textContent =
+        state.title ||
+        CONFIG.defaultTitle;
 
-                    <button
-                        type="button"
-                        class="style-option"
-                        data-style="modern"
-                    >
-                        <span class="style-preview style-two"></span>
-                        <span>حديث</span>
-                    </button>
+}
 
-                    <button
-                        type="button"
-                        class="style-option"
-                        data-style="minimal"
-                    >
-                        <span class="style-preview style-three"></span>
-                        <span>هادئ</span>
-                    </button>
 
-                </div>
+function removeSubjectClasses() {
 
-            </section>
+    Object.values(SUBJECTS).forEach(
+        subject => {
 
+            elements.designCanvas.classList.remove(
+                subject.className
+            );
 
-            <!-- الشعارات -->
-            <section class="control-section">
+        }
+    );
 
-                <label class="section-title">
-                    الشعارات
-                </label>
+}
 
-                <div class="logo-status">
 
-                    <div class="logo-item">
-                        <div class="logo-placeholder">
-                            ف
-                        </div>
+/* =========================================================
+   تحديث لون المادة
+========================================================= */
 
-                        <div>
-                            <strong>شعار فضاء</strong>
-                            <small>ثابت في التصميم</small>
-                        </div>
+function updateSubjectTheme() {
 
-                        <span class="status-dot"></span>
-                    </div>
+    const subject =
+        getSubjectData(state.subject);
 
+    removeSubjectClasses();
 
-                    <div class="logo-item">
-                        <div class="logo-placeholder">
-                            ★
-                        </div>
+    elements.designCanvas.classList.add(
+        subject.className
+    );
 
-                        <div>
-                            <strong>شعار الفريق</strong>
-                            <small>ثابت في التصميم</small>
-                        </div>
+}
 
-                        <span class="status-dot"></span>
-                    </div>
 
-                </div>
+/* =========================================================
+   تحديث نوع التصميم
+========================================================= */
 
-            </section>
+function updateTemplate() {
 
+    elements.designCanvas.classList.remove(
+        "template-lesson",
+        "template-unit"
+    );
 
-            <!-- إعدادات التصدير -->
-            <section class="control-section export-section">
+    elements.designCanvas.classList.add(
+        `template-${state.template}`
+    );
 
-                <label class="section-title">
-                    التصدير
-                </label>
 
-                <div class="export-info">
+    elements.templateOptions.forEach(
+        button => {
 
-                    <div>
-                        <span>الصيغة</span>
-                        <strong>PNG</strong>
-                    </div>
+            button.classList.toggle(
+                "active",
+                button.dataset.template ===
+                state.template
+            );
 
-                    <div>
-                        <span>الجودة</span>
-                        <strong>عالية جدًا</strong>
-                    </div>
+        }
+    );
 
-                    <div>
-                        <span>المقاس</span>
-                        <strong>8500 × 5000</strong>
-                    </div>
+}
 
-                </div>
 
+/* =========================================================
+   تحديث النمط
+========================================================= */
 
-                <button
-                    type="button"
-                    class="export-button"
-                    id="exportBtn"
-                >
-                    <span>↓</span>
-                    تصدير التصميم PNG
-                </button>
+function updateStyle() {
 
-            </section>
+    elements.designCanvas.classList.remove(
+        "style-modern",
+        "style-minimal"
+    );
 
-        </aside>
 
+    if (state.style === "modern") {
 
-        <!-- =========================
-             منطقة المعاينة
-        ========================== -->
-        <section class="preview-area">
+        elements.designCanvas.classList.add(
+            "style-modern"
+        );
 
-            <div class="preview-header">
+    }
 
-                <div>
-                    <span class="preview-label">المعاينة</span>
-                    <h2>التصميم</h2>
-                </div>
 
-                <div class="preview-size">
-                    8500 × 5000 px
-                </div>
+    if (state.style === "minimal") {
 
-            </div>
+        elements.designCanvas.classList.add(
+            "style-minimal"
+        );
 
+    }
 
-            <!-- مساحة التصميم -->
-            <div class="canvas-wrapper">
 
-                <div
-                    id="designCanvas"
-                    class="design-canvas subject-islamic template-lesson"
-                >
+    elements.styleOptions.forEach(
+        button => {
 
-                    <!-- زخارف خلفية -->
-                    <div class="decor decor-one"></div>
-                    <div class="decor decor-two"></div>
-                    <div class="decor decor-three"></div>
+            button.classList.toggle(
+                "active",
+                button.dataset.style ===
+                state.style
+            );
 
+        }
+    );
 
-                    <!-- الشعار العلوي -->
-                    <div class="canvas-logo project-logo">
+}
 
-                        <img
-                            src="assets/logos/fadaa.png"
-                            alt="شعار فضاء"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                        >
 
-                        <span class="logo-fallback">
-                            ف
-                        </span>
+/* =========================================================
+   تحديث التصميم
+========================================================= */
 
-                    </div>
+function updateDesign() {
 
+    updateStateFromInputs();
 
-                    <!-- شعار الفريق -->
-                    <div class="canvas-logo team-logo">
+    updatePreviewText();
 
-                        <img
-                            src="assets/logos/team.png"
-                            alt="شعار الفريق"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                        >
+    updateSubjectTheme();
 
-                        <span class="logo-fallback">
-                            ★
-                        </span>
+    updateTemplate();
 
-                    </div>
+    updateStyle();
 
+}
 
-                    <!-- المحتوى الرئيسي -->
-                    <div class="canvas-content">
 
-                        <div class="subject-badge" id="previewSubject">
-                            التربية الإسلامية
-                        </div>
+/* =========================================================
+   المادة
+========================================================= */
 
+elements.subject.addEventListener(
+    "change",
+    () => {
 
-                        <div class="unit-display" id="previewUnit">
-                            الوحدة الأولى
-                        </div>
+        state.subject =
+            elements.subject.value;
 
+        updateDesign();
 
-                        <div class="title-decoration">
-                            <span></span>
-                            <i></i>
-                            <span></span>
-                        </div>
+    }
+);
 
 
-                        <h3
-                            class="lesson-title"
-                            id="previewTitle"
-                        >
-                            عنوان الدرس
-                        </h3>
+/* =========================================================
+   الباب / الوحدة
+========================================================= */
 
+elements.unitName.addEventListener(
+    "input",
+    () => {
 
-                        <div class="bottom-decoration">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
+        state.unit =
+            elements.unitName.value;
 
-                    </div>
+        updatePreviewText();
 
+    }
+);
 
-                    <!-- رقم/هوية التصميم -->
-                    <div class="canvas-footer">
 
-                        <span>
-                            فضاء ثالثة ثانوي
-                        </span>
+/* =========================================================
+   عنوان الدرس
+========================================================= */
 
-                        <span class="footer-separator">
-                            •
-                        </span>
+elements.lessonName.addEventListener(
+    "input",
+    () => {
 
-                        <span>
-                            منصة تعليمية
-                        </span>
+        state.title =
+            elements.lessonName.value;
 
-                    </div>
+        updatePreviewText();
 
-                </div>
+    }
+);
 
-            </div>
 
+/* =========================================================
+   نوع التصميم
+========================================================= */
 
-            <!-- شريط معلومات المعاينة -->
-            <div class="preview-footer">
+elements.templateOptions.forEach(
+    button => {
 
-                <div class="preview-status">
-                    <span class="status-indicator"></span>
-                    المعاينة محدثة تلقائيًا
-                </div>
+        button.addEventListener(
+            "click",
+            () => {
 
-                <div class="preview-ratio">
-                    نسبة التصميم 17 : 10
-                </div>
+                state.template =
+                    button.dataset.template;
 
-            </div>
+                updateTemplate();
 
-        </section>
+            }
+        );
 
-    </main>
+    }
+);
 
 
-    <!-- =========================
-         نافذة المساعدة
-    ========================== -->
-    <div
-        class="modal"
-        id="helpModal"
-        aria-hidden="true"
-    >
+/* =========================================================
+   النمط
+========================================================= */
 
-        <div class="modal-overlay" id="modalOverlay"></div>
+elements.styleOptions.forEach(
+    button => {
 
-        <div class="modal-content">
+        button.addEventListener(
+            "click",
+            () => {
 
-            <button
-                type="button"
-                class="modal-close"
-                id="closeModal"
-                aria-label="إغلاق"
-            >
-                ×
-            </button>
+                state.style =
+                    button.dataset.style;
 
-            <span class="modal-icon">✦</span>
+                updateStyle();
 
-            <h2>مولد التصاميم التعليمية</h2>
+            }
+        );
 
-            <p>
-                اختر المادة، ثم حدد نوع التصميم وأدخل اسم الباب
-                وعنوان الدرس. ستتحدث المعاينة تلقائيًا.
-            </p>
+    }
+);
 
-            <p>
-                عند الانتهاء يمكنك تصدير التصميم بصيغة PNG
-                بجودة عالية.
-            </p>
 
-        </div>
+/* =========================================================
+   إعادة الضبط
+========================================================= */
 
-    </div>
+function resetDesign() {
 
+    state.subject =
+        CONFIG.defaultSubject;
 
-    <!-- ملف البرمجة -->
-    <script src="app.js"></script>
+    state.template =
+        CONFIG.defaultTemplate;
 
-</body>
-</html> 
+    state.style =
+        CONFIG.defaultStyle;
+
+    state.unit =
+        CONFIG.defaultUnit;
+
+    state.title =
+        CONFIG.defaultTitle;
+
+
+    elements.subject.value =
+        CONFIG.defaultSubject;
+
+    elements.unitName.value =
+        CONFIG.defaultUnit;
+
+    elements.lessonName.value =
+        CONFIG.defaultTitle;
+
+
+    updateDesign();
+
+}
+
+
+elements.resetBtn.addEventListener(
+    "click",
+    resetDesign
+);
+
+
+/* =========================================================
+   نافذة المساعدة
+========================================================= */
+
+function openHelp() {
+
+    elements.helpModal.classList.add(
+        "active"
+    );
+
+    elements.helpModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+function closeHelp() {
+
+    elements.helpModal.classList.remove(
+        "active"
+    );
+
+    elements.helpModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+elements.helpBtn.addEventListener(
+    "click",
+    openHelp
+);
+
+
+elements.closeModal.addEventListener(
+    "click",
+    closeHelp
+);
+
+
+elements.modalOverlay.addEventListener(
+    "click",
+    closeHelp
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape" &&
+            elements.helpModal.classList.contains(
+                "active"
+            )
+        ) {
+
+            closeHelp();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   تحميل html2canvas
+========================================================= */
+
+function loadHtml2Canvas() {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            if (window.html2canvas) {
+
+                resolve(
+                    window.html2canvas
+                );
+
+                return;
+
+            }
+
+
+            const script =
+                document.createElement(
+                    "script"
+                );
+
+            script.src =
+                "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+
+
+            script.onload = () => {
+
+                if (window.html2canvas) {
+
+                    resolve(
+                        window.html2canvas
+                    );
+
+                } else {
+
+                    reject(
+                        new Error(
+                            "تعذر تحميل مكتبة التصدير."
+                        )
+                    );
+
+                }
+
+            };
+
+
+            script.onerror = () => {
+
+                reject(
+                    new Error(
+                        "فشل تحميل مكتبة التصدير."
+                    )
+                );
+
+            };
+
+
+            document.head.appendChild(
+                script
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   انتظار الصور
+========================================================= */
+
+function waitForImages(container) {
+
+    const images =
+        Array.from(
+            container.querySelectorAll("img")
+        );
+
+
+    if (!images.length) {
+
+        return Promise.resolve();
+
+    }
+
+
+    return Promise.all(
+        images.map(
+            image => {
+
+                if (
+                    image.complete &&
+                    image.naturalWidth > 0
+                ) {
+
+                    return Promise.resolve();
+
+                }
+
+
+                return new Promise(
+                    resolve => {
+
+                        image.addEventListener(
+                            "load",
+                            resolve,
+                            { once: true }
+                        );
+
+                        image.addEventListener(
+                            "error",
+                            resolve,
+                            { once: true }
+                        );
+
+                    }
+                );
+
+            }
+        )
+    );
+
+}
+
+
+/* =========================================================
+   انتظار الخط
+========================================================= */
+
+async function waitForFonts() {
+
+    if (
+        document.fonts &&
+        document.fonts.ready
+    ) {
+
+        try {
+
+            await document.fonts.ready;
+
+        } catch (error) {
+
+            console.warn(
+                "تعذر انتظار الخطوط:",
+                error
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   إنشاء نسخة التصدير
+========================================================= */
+
+async function createExportCanvas() {
+
+    const html2canvas =
+        await loadHtml2Canvas();
+
+
+    /*
+       مهم جدًا:
+
+       لا نقوم بتغيير التصميم إلى 8500px هنا.
+
+       نأخذ التصميم بنفس حجمه الحقيقي في المعاينة،
+       ثم نرفع دقة الالتقاط بواسطة scale.
+
+       بهذه الطريقة:
+       1. أماكن العناصر تبقى صحيحة.
+       2. أحجام الخطوط تبقى صحيحة.
+       3. الشعارات تبقى صحيحة.
+       4. النتيجة النهائية تصبح 8500 × 5000.
+    */
+
+
+    const source =
+        elements.designCanvas;
+
+
+    const rect =
+        source.getBoundingClientRect();
+
+
+    const sourceWidth =
+        Math.round(rect.width);
+
+
+    const sourceHeight =
+        Math.round(rect.height);
+
+
+    if (
+        sourceWidth <= 0 ||
+        sourceHeight <= 0
+    ) {
+
+        throw new Error(
+            "تعذر تحديد حجم التصميم."
+        );
+
+    }
+
+
+    /*
+       النسبة المطلوبة للتصدير.
+    */
+
+    const scale =
+        CONFIG.exportWidth /
+        sourceWidth;
+
+
+    /*
+       نتأكد أن الناتج يطابق
+       النسبة المطلوبة.
+    */
+
+    const expectedHeight =
+        Math.round(
+            sourceHeight * scale
+        );
+
+
+    /*
+       لو اختلفت بضعة بكسلات بسبب
+       التقريب أو الشاشة، نستخدم
+       النسبة الأصلية للتصميم.
+    */
+
+    console.log(
+        "Export:",
+        {
+            sourceWidth,
+            sourceHeight,
+            scale,
+            expectedWidth:
+                CONFIG.exportWidth,
+            expectedHeight
+        }
+    );
+
+
+    /*
+       ننتظر الخطوط والصور.
+    */
+
+    await waitForFonts();
+
+    await waitForImages(
+        source
+    );
+
+
+    /*
+       نلتقط التصميم نفسه مباشرة.
+       لا Clone بحجم 8500.
+    */
+
+    const canvas =
+        await html2canvas(
+            source,
+            {
+
+                scale: scale,
+
+                width:
+                    sourceWidth,
+
+                height:
+                    sourceHeight,
+
+                useCORS: true,
+
+                allowTaint: false,
+
+                backgroundColor: null,
+
+                logging: false,
+
+                imageTimeout: 20000,
+
+                removeContainer: true,
+
+                foreignObjectRendering: false
+
+            }
+        );
+
+
+    /*
+       html2canvas سيعطي الحجم الناتج
+       بناءً على scale.
+
+       للتأكد من عدم وجود فرق بسبب
+       التقريب، نعيد رسم الصورة
+       في Canvas نهائي بالحجم المطلوب.
+    */
+
+    if (
+        canvas.width !==
+            CONFIG.exportWidth ||
+        canvas.height !==
+            CONFIG.exportHeight
+    ) {
+
+        const finalCanvas =
+            document.createElement(
+                "canvas"
+            );
+
+
+        finalCanvas.width =
+            CONFIG.exportWidth;
+
+        finalCanvas.height =
+            CONFIG.exportHeight;
+
+
+        const context =
+            finalCanvas.getContext(
+                "2d"
+            );
+
+
+        context.imageSmoothingEnabled =
+            true;
+
+        context.imageSmoothingQuality =
+            "high";
+
+
+        context.drawImage(
+            canvas,
+            0,
+            0,
+            canvas.width,
+            canvas.height,
+            0,
+            0,
+            CONFIG.exportWidth,
+            CONFIG.exportHeight
+        );
+
+
+        return finalCanvas;
+
+    }
+
+
+    return canvas;
+
+}
+
+
+/* =========================================================
+   تنظيف اسم الملف
+========================================================= */
+
+function sanitizeFilename(text) {
+
+    return text
+        .replace(
+            /[\\/:*?"<>|]/g,
+            ""
+        )
+        .replace(
+            /\s+/g,
+            "-"
+        )
+        .trim();
+
+}
+
+
+/* =========================================================
+   اسم ملف التصميم
+========================================================= */
+
+function generateFilename() {
+
+    const subject =
+        getSubjectData(
+            state.subject
+        );
+
+
+    const title =
+        state.title ||
+        CONFIG.defaultTitle;
+
+
+    const cleanSubject =
+        sanitizeFilename(
+            subject.shortName
+        );
+
+
+    const cleanTitle =
+        sanitizeFilename(
+            title
+        );
+
+
+    return (
+        `فضاء-${cleanSubject}-${cleanTitle}.png`
+    );
+
+}
+
+
+/* =========================================================
+   تصدير PNG
+========================================================= */
+
+function downloadCanvasAsPNG(
+    canvas,
+    filename
+) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            canvas.toBlob(
+                blob => {
+
+                    if (!blob) {
+
+                        reject(
+                            new Error(
+                                "تعذر إنشاء ملف PNG."
+                            )
+                        );
+
+                        return;
+
+                    }
+
+
+                    const url =
+                        URL.createObjectURL(
+                            blob
+                        );
+
+
+                    const link =
+                        document.createElement(
+                            "a"
+                        );
+
+
+                    link.href =
+                        url;
+
+                    link.download =
+                        filename;
+
+
+                    document.body.appendChild(
+                        link
+                    );
+
+
+                    link.click();
+
+
+                    link.remove();
+
+
+                    setTimeout(
+                        () => {
+
+                            URL.revokeObjectURL(
+                                url
+                            );
+
+                            resolve();
+
+                        },
+                        1500
+                    );
+
+                },
+
+                "image/png"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   حالة زر التصدير
+========================================================= */
+
+function setExportLoading(
+    loading
+) {
+
+    if (loading) {
+
+        elements.exportBtn.disabled =
+            true;
+
+
+        elements.exportBtn.dataset
+            .originalText =
+            elements.exportBtn.innerHTML;
+
+
+        elements.exportBtn.innerHTML =
+            `
+                <span>⏳</span>
+                جاري تجهيز الصورة...
+            `;
+
+    } else {
+
+        elements.exportBtn.disabled =
+            false;
+
+
+        elements.exportBtn.innerHTML =
+            elements.exportBtn.dataset
+                .originalText ||
+            `
+                <span>↓</span>
+                تصدير التصميم PNG
+            `;
+
+    }
+
+}
+
+
+/* =========================================================
+   تنفيذ التصدير
+========================================================= */
+
+async function exportDesign() {
+
+    try {
+
+        setExportLoading(
+            true
+        );
+
+
+        /*
+           ننتظر دورة رسم كاملة.
+        */
+
+        await new Promise(
+            resolve => {
+
+                requestAnimationFrame(
+                    () => {
+
+                        requestAnimationFrame(
+                            resolve
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /*
+           إنشاء الصورة عالية الدقة.
+        */
+
+        const canvas =
+            await createExportCanvas();
+
+
+        /*
+           اسم الملف.
+        */
+
+        const filename =
+            generateFilename();
+
+
+        /*
+           تنزيل PNG.
+        */
+
+        await downloadCanvasAsPNG(
+            canvas,
+            filename
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Export error:",
+            error
+        );
+
+
+        alert(
+            "حدث خطأ أثناء تصدير التصميم.\n\n" +
+            "إذا كنت تستخدم هاتفًا، جرّب إغلاق التطبيقات الأخرى ثم أعد التصدير."
+        );
+
+
+    } finally {
+
+        setExportLoading(
+            false
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   زر التصدير
+========================================================= */
+
+elements.exportBtn.addEventListener(
+    "click",
+    exportDesign
+);
+
+
+/* =========================================================
+   اختصار لوحة المفاتيح
+   Ctrl + S
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            (event.ctrlKey ||
+                event.metaKey) &&
+            event.key.toLowerCase() === "s"
+        ) {
+
+            event.preventDefault();
+
+            exportDesign();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   منع Enter غير المرغوب
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter" &&
+            event.target.tagName === "INPUT"
+        ) {
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   تشغيل التطبيق
+========================================================= */
+
+function initializeApp() {
+
+    elements.subject.value =
+        CONFIG.defaultSubject;
+
+
+    elements.unitName.value =
+        CONFIG.defaultUnit;
+
+
+    elements.lessonName.value =
+        CONFIG.defaultTitle;
+
+
+    updateDesign();
+
+}
+
+
+/* =========================================================
+   البداية
+========================================================= */
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeApp
+    );
+
+} else {
+
+    initializeApp();
+
+}
