@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد البطاقات التعليمية | فريق النخبة</title>
+    <!-- خط Cairo لدعم اللغة العربية بشكل احترافي -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            /* الألوان الافتراضية (هوية فضاء) */
+            --primary: #00BCD4; /* أزرق تركواز */
+            --secondary: #E91E63; /* وردي فوشي */
+            --accent: #8BC34A; /* أخضر عشبي */
+            --bg-light: #F9FBE7; /* أصفر فاتح للنجوم والخلفية */
+            --text-dark: #333333;
+            --text-light: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .dashboard {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 1200px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .dashboard h1 {
+            grid-column: 1 / -1;
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 700;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.2);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .btn-export {
+            grid-column: 1 / -1;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: 900;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* 
+           إعدادات لوحة الرسم (Canvas)
+           تم اختيار نسبة عمودية متناسبة لتعطي تصميم طولي ممتاز
+        */
+        .preview-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            padding-bottom: 40px;
+        }
+
+        #artboard {
+            width: 850px; 
+            height: 1150px; 
+            background: #ffffff;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* تصميم الخلفية والزخارف الهندسية */
+        .bg-shapes {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            background-color: var(--bg-light);
+        }
+
+        .shape-1 {
+            position: absolute;
+            top: -10%; right: -20%;
+            width: 600px; height: 600px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape-2 {
+            position: absolute;
+            bottom: -5%; left: -15%;
+            width: 500px; height: 500px;
+            background: var(--secondary);
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+
+        .shape-3 {
+            position: absolute;
+            top: 40%; right: 10%;
+            width: 100px; height: 100px;
+            background: var(--accent);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            opacity: 0.2;
+            transform: rotate(15deg);
+        }
+
+        /* رأس التصميم (الشعارات والمادة) */
+        .header {
+            position: relative;
+            z-index: 2;
+            padding: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .logos {
+            display: flex;
+            gap: 20px;
+        }
+
+        .logo-box {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .subject-badge {
+            background: var(--primary);
+            color: var(--text-light);
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 32px;
+            font-weight: 900;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* محتوى التصميم (العناوين) */
+        .content {
+            position: relative;
+            z-index: 2;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 60px;
+        }
+
+        .chapter-title {
+            font-size: 48px;
+            color: var(--secondary);
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .lesson-title {
+            font-size: 72px;
+            color: var(--text-dark);
+            font-weight: 900;
+            line-height: 1.3;
+        }
+
+        /* قالب نهاية الباب (الملخصات) */
+        .template-end-chapter .lesson-title {
+            display: none;
+        }
+
+        .end-chapter-badge {
+            display: none;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: #fff;
+            padding: 20px 60px;
+            border-radius: 20px;
+            font-size: 55px;
+            font-weight: 900;
+            margin-top: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .template-end-chapter .end-chapter-badge {
+            display: inline-block;
+        }
+
+        /* تذييل التصميم */
+        .footer {
+            position: relative;
+            z-index: 2;
+            padding: 50px;
+            text-align: center;
+            border-top: 2px dashed rgba(0,0,0,0.1);
+        }
+
+        .footer-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #777;
+        }
+        
+        .footer-highlight {
+            color: var(--primary);
+            font-weight: 900;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <h1>أداة توليد المنشورات التعليمية 🎨</h1>
+        
+        <div class="input-group">
+            <label>المادة التعليمية:</label>
+            <select id="subjectSelect" onchange="updateDesign()">
+                <option value="islamic">التربية الإسلامية / القرآن الكريم</option>
+                <option value="it">تقنية المعلومات</option>
+                <option value="arabic-balagha">اللغة العربية (البلاغة)</option>
+                <option value="arabic-adab">اللغة العربية (الأدب والنصوص)</option>
+                <option value="arabic-lang">اللغة العربية (الدراسات اللغوية)</option>
+                <option value="math">الرياضيات</option>
+                <option value="physics">الفيزياء الكهرومغناطيسية</option>
+                <option value="mechanics">الميكانيكا</option>
+                <option value="chemistry">الكيمياء</option>
+                <option value="biology">الأحياء</option>
+                <option value="statistics">الإحصاء</option>
+                <option value="english">اللغة الإنجليزية</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>الباب / الوحدة:</label>
+            <input type="text" id="chapterInput" value="الباب الأول: مقدمة أساسية" oninput="updateDesign()">
+        </div>
+
+        <div class="input-group" id="lessonGroup">
+            <label>عنوان الدرس:</label>
+            <input type="text" id="lessonInput" value="الدرس الأول: المفاهيم العامة" oninput="updateDesign()">
+        </div>
+
+        <div class="input-group">
+            <label>نوع القالب:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="templateType" value="lesson" checked onchange="updateDesign()"> درس عادي</label>
+                <label><input type="radio" name="templateType" value="end" onchange="updateDesign()"> نهاية باب (ملخص شامل)</label>
+            </div>
+        </div>
+
+        <button class="btn-export" onclick="exportImage()">تحميل الصورة بجودة عالية 📥</button>
+    </div>
+
+    <div class="preview-container">
+        <!-- لوحة الرسم -->
+        <div id="artboard">
+            <div class="bg-shapes">
+                <div class="shape-1"></div>
+                <div class="shape-2"></div>
+                <div class="shape-3"></div>
+            </div>
+
+            <div class="header">
+                <div class="logos">
+                    <!-- ارفع صور الشعارات في مجلد assets على جيت هاب -->
+                    <div class="logo-box">
+                        <img src="assets/project-logo.png" alt="شعار المشروع" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%23ccc\'/></svg>'">
+                    </div>
+                    <div class="logo-box">
+                        <img src="assets/team-logo.png" alt="شعار الفريق" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'50\' height=\'50\'><rect width=\'50\' height=\'50\' fill=\'%23ccc\'/></svg>'">
+                    </div>
+                </div>
+                <div class="subject-badge" id="displaySubject">التربية الإسلامية</div>
+            </div>
+
+            <div class="content">
+                <div class="chapter-title" id="displayChapter">الباب الأول: مقدمة أساسية</div>
+                <div class="lesson-title" id="displayLesson">الدرس الأول: المفاهيم العامة</div>
+                <div class="end-chapter-badge">ملخص شامل واختبارات</div>
+            </div>
+
+            <div class="footer">
+                <div class="footer-text">مرفق في المنشور <span class="footer-highlight">ملخصات وشروحات</span> شاملة</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // قاعدة بيانات الألوان لكل مادة
+        const colors = {
+            'islamic': { primary: '#2B4522', secondary: '#D4AF37', accent: '#D3D3D3', bg: '#f2f5f1' },
+            'it': { primary: '#008080', secondary: '#FFCC00', accent: '#87CEFA', bg: '#f0f9f9' },
+            'arabic-balagha': { primary: '#FF00FF', secondary: '#4B0082', accent: '#008000', bg: '#fef0ff' },
+            'arabic-adab': { primary: '#C68E17', secondary: '#36454F', accent: '#FFCC00', bg: '#fdfaf2' },
+            'arabic-lang': { primary: '#4B0082', secondary: '#8A9A5B', accent: '#FFB6C1', bg: '#f6f5fa' },
+            // الألوان الافتراضية لباقي المواد (ألوان هوية مشروع فضاء)
+            'default': { primary: '#00BCD4', secondary: '#E91E63', accent: '#8BC34A', bg: '#F9FBE7' }
+        };
+
+        function updateDesign() {
+            const subject = document.getElementById('subjectSelect');
+            const chapter = document.getElementById('chapterInput').value;
+            const lesson = document.getElementById('lessonInput').value;
+            const templateType = document.querySelector('input[name="templateType"]:checked').value;
+
+            // تحديث النصوص
+            document.getElementById('displaySubject').innerText = subject.options[subject.selectedIndex].text;
+            document.getElementById('displayChapter').innerText = chapter;
+            document.getElementById('displayLesson').innerText = lesson;
+
+            // تحديث نوع القالب
+            const artboard = document.getElementById('artboard');
+            const lessonGroup = document.getElementById('lessonGroup');
+            if (templateType === 'end') {
+                artboard.classList.add('template-end-chapter');
+                lessonGroup.style.opacity = '0.5';
+                lessonGroup.style.pointerEvents = 'none';
+            } else {
+                artboard.classList.remove('template-end-chapter');
+                lessonGroup.style.opacity = '1';
+                lessonGroup.style.pointerEvents = 'auto';
+            }
+
+            // تحديث الألوان
+            const theme = colors[subject.value] || colors['default'];
+            const root = document.documentElement;
+            root.style.setProperty('--primary', theme.primary);
+            root.style.setProperty('--secondary', theme.secondary);
+            root.style.setProperty('--accent', theme.accent);
+            root.style.setProperty('--bg-light', theme.bg);
+        }
+
+        // دالة التصدير للصورة
+        async function exportImage() {
+            const artboard = document.getElementById('artboard');
+            
+            // استخدمنا scale عالي للحصول على أبعاد ضخمة تقارب المطلوبة
+            html2canvas(artboard, {
+                scale: 5, 
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `تصميم_${document.getElementById('subjectSelect').value}.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+            });
+        }
+
+        // تشغيل التحديث عند فتح الصفحة
+        updateDesign();
+    </script>
+</body>
+</html>
