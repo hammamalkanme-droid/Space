@@ -1,1082 +1,1065 @@
+/* =========================================================
+   فضاء | مولد التصاميم
+   style.css — FINAL
+========================================================= */
+
 :root {
-    --bg: #f4f6f8;
-    --surface: #ffffff;
-    --surface-soft: #f8fafb;
-    --border: #e3e7eb;
 
-    --text: #18202a;
-    --text-soft: #69737f;
-    --text-muted: #929ba5;
+    --app-bg: #f3f4f6;
 
-    --primary: #147f83;
-    --primary-dark: #0d6267;
+    --panel-bg: #ffffff;
 
-    --accent: #f4c542;
+    --text: #18272b;
 
-    --canvas-width: 8500;
-    --canvas-height: 5000;
+    --muted: #718087;
 
-    --radius-lg: 22px;
-    --radius-md: 14px;
-    --radius-sm: 10px;
+    --border: #e5e7eb;
 
-    --shadow: 0 12px 35px rgba(20, 30, 40, 0.08);
+    --primary: #536f49;
+
+    --gold: #d5a92a;
+
+    --canvas-bg: #f7f6f1;
+
+    --canvas-text: #1d2b2e;
+
 }
 
 
-/* =========================
+/* =========================================================
    Reset
-========================= */
+========================================================= */
 
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
+
 
 html {
     scroll-behavior: smooth;
 }
 
+
 body {
+
+    margin: 0;
+
     min-height: 100vh;
 
-    background:
-        radial-gradient(
-            circle at top right,
-            rgba(20, 127, 131, 0.06),
-            transparent 30%
-        ),
-        var(--bg);
+    background: var(--app-bg);
 
     color: var(--text);
 
     font-family:
         "Cairo",
-        "Noto Sans Arabic",
         Arial,
         sans-serif;
 
-    direction: rtl;
-}
+    -webkit-font-smoothing: antialiased;
 
-button,
-input,
-textarea,
-select {
-    font: inherit;
-}
-
-button {
-    border: 0;
-    cursor: pointer;
-}
-
-img {
-    max-width: 100%;
-    display: block;
 }
 
 
-/* =========================
-   Header
-========================= */
+/* =========================================================
+   رأس التطبيق
+========================================================= */
 
 .app-header {
+
     height: 82px;
 
-    background: rgba(255, 255, 255, 0.94);
+    padding:
+        0 28px;
 
-    border-bottom: 1px solid var(--border);
+    background:
+        rgba(255,255,255,.92);
+
+    border-bottom:
+        1px solid var(--border);
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    padding: 0 30px;
-
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    backdrop-filter: blur(18px);
 }
+
 
 .brand {
+
     display: flex;
+
     align-items: center;
+
     gap: 13px;
+
 }
 
+
 .brand-icon {
-    width: 44px;
-    height: 44px;
+
+    width: 43px;
+    height: 43px;
 
     border-radius: 13px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
-
-    font-size: 22px;
-    font-weight: 900;
-
-    color: white;
 
     background:
         linear-gradient(
             135deg,
-            #14a5ad,
-            #168083
+            #536f49,
+            #354c30
         );
 
-    box-shadow:
-        0 7px 18px rgba(20, 127, 131, 0.22);
+    color: white;
+
+    font-weight: 900;
+
+    font-size: 21px;
+
 }
 
-.brand-info {
-    display: flex;
-    flex-direction: column;
-
-    line-height: 1.2;
-}
 
 .brand-info h1 {
+
+    margin: 0;
+
     font-size: 17px;
-    font-weight: 800;
+
+    font-weight: 900;
+
 }
+
 
 .brand-info span {
-    color: var(--text-muted);
-    font-size: 11px;
-    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
 }
 
+
 .header-actions {
+
     display: flex;
-    align-items: center;
+
     gap: 8px;
+
 }
+
 
 .icon-button,
 .help-button {
-    width: 39px;
-    height: 39px;
 
-    border-radius: 11px;
-
-    background: var(--surface-soft);
-
-    color: var(--text-soft);
+    width: 40px;
+    height: 40px;
 
     border: 1px solid var(--border);
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 12px;
+
+    background: white;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-weight: 800;
 
     transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        color 0.2s ease;
+        .2s ease;
+
 }
 
-.icon-button {
-    font-size: 22px;
-}
-
-.help-button {
-    font-weight: 800;
-}
 
 .icon-button:hover,
 .help-button:hover {
-    background: var(--primary);
-    color: white;
-    transform: translateY(-2px);
+
+    transform: translateY(-1px);
+
+    border-color:
+        #c8ced1;
+
 }
 
 
-/* =========================
-   Main Layout
-========================= */
+/* =========================================================
+   التطبيق
+========================================================= */
 
 .app-container {
-    width: min(1700px, calc(100% - 40px));
 
-    margin: 30px auto;
+    width: min(
+        1500px,
+        calc(100% - 40px)
+    );
+
+    margin:
+        28px auto;
 
     display: grid;
 
     grid-template-columns:
-        minmax(320px, 390px)
-        minmax(0, 1fr);
+        370px minmax(0, 1fr);
 
-    gap: 28px;
+    gap: 24px;
 
     align-items: start;
+
 }
 
 
-/* =========================
-   Control Panel
-========================= */
+/* =========================================================
+   لوحة التحكم
+========================================================= */
 
 .control-panel {
-    background: var(--surface);
 
-    border: 1px solid var(--border);
+    background: var(--panel-bg);
 
-    border-radius: var(--radius-lg);
+    border:
+        1px solid var(--border);
 
-    box-shadow: var(--shadow);
+    border-radius: 22px;
 
-    padding: 25px;
+    padding: 24px;
 
-    position: sticky;
-    top: 108px;
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,.04);
 
-    max-height: calc(100vh - 130px);
-
-    overflow-y: auto;
 }
 
-.control-panel::-webkit-scrollbar {
-    width: 5px;
-}
-
-.control-panel::-webkit-scrollbar-thumb {
-    background: #d5dce2;
-    border-radius: 20px;
-}
 
 .panel-heading {
+
     margin-bottom: 25px;
+
 }
 
+
 .panel-label {
-    display: inline-flex;
 
-    padding: 5px 10px;
+    display: inline-block;
 
-    border-radius: 8px;
-
-    background: rgba(20, 127, 131, 0.09);
+    margin-bottom: 4px;
 
     color: var(--primary);
 
     font-size: 11px;
-    font-weight: 800;
 
-    margin-bottom: 8px;
-}
-
-.panel-heading h2 {
-    font-size: 22px;
     font-weight: 900;
 
-    margin-bottom: 5px;
 }
+
+
+.panel-heading h2 {
+
+    margin: 0;
+
+    font-size: 23px;
+
+}
+
 
 .panel-heading p {
-    color: var(--text-muted);
+
+    margin:
+        5px 0 0;
+
+    color: var(--muted);
 
     font-size: 12px;
-    line-height: 1.8;
+
 }
 
 
-/* =========================
-   Control Sections
-========================= */
+/* =========================================================
+   الأقسام
+========================================================= */
 
 .control-section {
-    padding: 20px 0;
 
-    border-top: 1px solid var(--border);
+    padding:
+        20px 0;
+
+    border-top:
+        1px solid #edf0f1;
+
 }
+
 
 .control-section:first-of-type {
+
     border-top: 0;
+
 }
+
 
 .section-title {
+
     display: block;
 
-    color: var(--text);
+    margin-bottom: 10px;
 
     font-size: 12px;
-    font-weight: 800;
 
-    margin-bottom: 10px;
+    font-weight: 900;
+
 }
+
 
 .input-label {
-    margin-top: 17px;
+
+    margin-top: 16px;
+
 }
 
 
-/* =========================
-   Template Buttons
-========================= */
+/* =========================================================
+   القوالب
+========================================================= */
 
 .template-grid {
+
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns:
+        1fr 1fr;
 
     gap: 9px;
+
 }
 
+
 .template-option {
+
     min-height: 72px;
 
-    background: var(--surface-soft);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius-md);
-
-    padding: 11px;
+    padding: 10px;
 
     display: flex;
+
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 
     text-align: right;
 
-    color: var(--text);
-
-    transition:
-        border-color 0.2s ease,
-        background 0.2s ease,
-        transform 0.2s ease;
-}
-
-.template-option:hover {
-    transform: translateY(-2px);
-}
-
-.template-option.active {
-    border-color: var(--primary);
-
-    background: rgba(20, 127, 131, 0.07);
-}
-
-.template-option strong {
-    display: block;
-
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.template-option small {
-    display: block;
-
-    color: var(--text-muted);
-
-    font-size: 9px;
-
-    margin-top: 3px;
-}
-
-.template-icon {
-    width: 34px;
-    height: 34px;
-
-    flex: 0 0 34px;
-
-    border-radius: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border:
+        1px solid var(--border);
 
     background: white;
 
-    border: 1px solid var(--border);
+    border-radius: 13px;
 
-    color: var(--primary);
+    cursor: pointer;
 
-    font-size: 16px;
+    font-family: inherit;
+
 }
 
 
-/* =========================
-   Inputs
-========================= */
+.template-option.active {
+
+    border-color:
+        var(--primary);
+
+    background:
+        rgba(83,111,73,.07);
+
+}
+
+
+.template-icon {
+
+    width: 32px;
+    height: 32px;
+
+    flex: 0 0 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        #f1f3f1;
+
+    color: var(--primary);
+
+}
+
+
+.template-option strong {
+
+    display: block;
+
+    font-size: 11px;
+
+}
+
+
+.template-option small {
+
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+}
+
+
+/* =========================================================
+   المدخلات
+========================================================= */
 
 .form-select,
 .form-input,
 .form-textarea {
+
     width: 100%;
 
-    background: #fbfcfd;
+    border:
+        1px solid var(--border);
 
-    border: 1px solid var(--border);
+    border-radius: 12px;
 
-    border-radius: var(--radius-sm);
+    background: #fff;
 
     color: var(--text);
+
+    padding:
+        11px 13px;
+
+    font-family: inherit;
+
+    font-size: 12px;
 
     outline: none;
 
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+        border .2s ease,
+        box-shadow .2s ease;
+
 }
 
-.form-select {
-    height: 45px;
-
-    padding: 0 12px;
-
-    cursor: pointer;
-}
-
-.form-input {
-    height: 45px;
-
-    padding: 0 13px;
-}
-
-.form-textarea {
-    resize: vertical;
-
-    min-height: 85px;
-
-    padding: 12px 13px;
-
-    line-height: 1.8;
-}
 
 .form-select:focus,
 .form-input:focus,
 .form-textarea:focus {
-    border-color: var(--primary);
 
-    background: white;
+    border-color:
+        var(--primary);
 
     box-shadow:
-        0 0 0 3px rgba(20, 127, 131, 0.09);
-}
+        0 0 0 3px
+        rgba(83,111,73,.10);
 
-.form-input::placeholder,
-.form-textarea::placeholder {
-    color: #aeb6be;
 }
 
 
-/* =========================
-   Style Options
-========================= */
+.form-textarea {
+
+    resize: vertical;
+
+    min-height: 90px;
+
+}
+
+
+/* =========================================================
+   الأنماط
+========================================================= */
 
 .section-title-row {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
+
 }
+
 
 .live-label {
-    color: #3c9b70;
 
-    font-size: 9px;
-    font-weight: 800;
-
-    background: rgba(60, 155, 112, 0.1);
-
-    padding: 4px 8px;
+    padding:
+        3px 7px;
 
     border-radius: 20px;
+
+    background:
+        #edf5eb;
+
+    color:
+        #53704b;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
 }
 
+
 .style-options {
+
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3,1fr);
 
     gap: 8px;
+
 }
 
-.style-option {
-    background: var(--surface-soft);
 
-    border: 1px solid var(--border);
+.style-option {
+
+    border:
+        1px solid var(--border);
+
+    background: white;
 
     border-radius: 11px;
 
-    padding: 7px;
+    padding: 8px 5px;
 
-    color: var(--text-soft);
+    cursor: pointer;
 
-    transition: 0.2s ease;
+    font-family: inherit;
+
+    font-size: 10px;
+
 }
+
 
 .style-option.active {
-    border-color: var(--primary);
 
-    color: var(--primary);
+    border-color:
+        var(--primary);
 
-    background: rgba(20, 127, 131, 0.05);
+    background:
+        rgba(83,111,73,.06);
+
 }
 
+
 .style-preview {
-    height: 42px;
 
-    width: 100%;
-
-    border-radius: 7px;
+    height: 24px;
 
     display: block;
 
     margin-bottom: 5px;
 
-    position: relative;
+    border-radius: 6px;
 
-    overflow: hidden;
 }
+
 
 .style-one {
+
     background:
         linear-gradient(
             135deg,
-            #147f83,
-            #f5d064
+            #dce6df,
+            #f7f4eb
         );
+
 }
+
 
 .style-two {
+
     background:
         linear-gradient(
             135deg,
-            #303b52,
-            #a8d8d2
+            #536f49,
+            #d4a92a
         );
+
 }
 
+
 .style-three {
+
     background:
         linear-gradient(
             135deg,
-            #eceff1,
+            #eeeeeb,
             #ffffff
         );
 
-    border: 1px solid #e2e5e8;
-}
-
-.style-option span:last-child {
-    font-size: 9px;
-    font-weight: 700;
 }
 
 
-/* =========================
-   Logo Status
-========================= */
+/* =========================================================
+   الشعارات في لوحة التحكم
+========================================================= */
 
 .logo-status {
-    display: flex;
-    flex-direction: column;
 
-    gap: 8px;
+    display: grid;
+
+    gap: 9px;
+
 }
 
+
 .logo-item {
-    min-height: 55px;
 
-    padding: 8px 10px;
-
-    background: var(--surface-soft);
-
-    border: 1px solid var(--border);
-
-    border-radius: 11px;
+    min-height: 52px;
 
     display: flex;
+
     align-items: center;
 
     gap: 10px;
+
+    padding: 7px 9px;
+
+    border:
+        1px solid #edf0f1;
+
+    border-radius: 12px;
+
 }
 
-.logo-placeholder {
-    width: 35px;
-    height: 35px;
 
-    flex: 0 0 35px;
+.logo-mini {
 
-    border-radius: 9px;
-
-    background: white;
-
-    border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
-    font-weight: 900;
+    overflow: hidden;
 
-    color: var(--primary);
 }
 
+
+.logo-mini img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
 .logo-item strong {
+
     display: block;
 
     font-size: 10px;
+
 }
 
+
 .logo-item small {
+
     display: block;
+
+    color: var(--muted);
 
     font-size: 8px;
 
-    color: var(--text-muted);
-
-    margin-top: 2px;
 }
 
+
 .status-dot {
+
     width: 7px;
     height: 7px;
 
+    margin-right: auto;
+
     border-radius: 50%;
 
-    background: #51b783;
+    background: #6ca35e;
 
-    margin-right: auto;
 }
 
 
-/* =========================
-   Export
-========================= */
-
-.export-section {
-    padding-bottom: 0;
-}
+/* =========================================================
+   التصدير
+========================================================= */
 
 .export-info {
+
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3,1fr);
 
-    gap: 6px;
+    gap: 7px;
 
-    margin-bottom: 13px;
+    margin-bottom: 12px;
+
 }
+
 
 .export-info div {
-    background: var(--surface-soft);
 
-    border: 1px solid var(--border);
-
-    border-radius: 9px;
-
-    padding: 8px;
+    padding: 8px 5px;
 
     text-align: center;
+
+    border-radius: 10px;
+
+    background:
+        #f6f7f7;
+
 }
 
+
 .export-info span {
+
     display: block;
 
-    color: var(--text-muted);
+    color: var(--muted);
 
     font-size: 8px;
 
-    margin-bottom: 2px;
 }
+
 
 .export-info strong {
+
     display: block;
 
-    font-size: 9px;
+    margin-top: 2px;
+
+    font-size: 10px;
+
 }
 
+
 .export-button {
+
     width: 100%;
 
     min-height: 48px;
 
-    border-radius: 12px;
+    border: 0;
+
+    border-radius: 13px;
 
     background:
         linear-gradient(
             135deg,
-            var(--primary),
-            var(--primary-dark)
+            #536f49,
+            #3e5837
         );
 
     color: white;
 
-    font-weight: 800;
+    cursor: pointer;
+
+    font-family: inherit;
 
     font-size: 12px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
+    font-weight: 900;
 
     box-shadow:
-        0 8px 18px rgba(20, 127, 131, 0.18);
+        0 7px 18px
+        rgba(83,111,73,.20);
 
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.export-button:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 12px 25px rgba(20, 127, 131, 0.25);
-}
-
-.export-button:active {
-    transform: translateY(0);
-}
-
-.export-button span {
-    font-size: 18px;
 }
 
 
-/* =========================
-   Preview Area
-========================= */
+.export-button:disabled {
+
+    opacity: .65;
+
+    cursor: wait;
+
+}
+
+
+/* =========================================================
+   منطقة المعاينة
+========================================================= */
 
 .preview-area {
+
     min-width: 0;
 
-    background: var(--surface);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius-lg);
-
-    box-shadow: var(--shadow);
-
-    padding: 25px;
 }
 
+
 .preview-header {
+
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
-    margin-bottom: 20px;
+    margin-bottom: 14px;
+
 }
 
+
 .preview-label {
-    display: block;
 
     color: var(--primary);
 
     font-size: 10px;
-    font-weight: 800;
-
-    margin-bottom: 2px;
-}
-
-.preview-header h2 {
-    font-size: 20px;
 
     font-weight: 900;
+
 }
+
+
+.preview-header h2 {
+
+    margin: 0;
+
+    font-size: 21px;
+
+}
+
 
 .preview-size {
-    padding: 7px 11px;
 
-    border-radius: 8px;
+    padding:
+        7px 10px;
 
-    background: var(--surface-soft);
+    border:
+        1px solid var(--border);
 
-    border: 1px solid var(--border);
+    border-radius: 10px;
 
-    color: var(--text-muted);
+    background: white;
 
-    font-size: 9px;
+    color: var(--muted);
 
-    direction: ltr;
+    font-size: 10px;
+
 }
 
 
-/* =========================
-   Canvas Wrapper
-========================= */
+/* =========================================================
+   الحاوية
+========================================================= */
 
 .canvas-wrapper {
+
     width: 100%;
 
-    padding: 20px;
-
-    background:
-        linear-gradient(
-            45deg,
-            #f2f4f6 25%,
-            transparent 25%
-        ) 0 0 / 20px 20px,
-        linear-gradient(
-            -45deg,
-            #f2f4f6 25%,
-            transparent 25%
-        ) 0 0 / 20px 20px,
-        linear-gradient(
-            45deg,
-            transparent 75%,
-            #f2f4f6 75%
-        ) 0 0 / 20px 20px,
-        linear-gradient(
-            -45deg,
-            transparent 75%,
-            #f2f4f6 75%
-        ) 0 0 / 20px 20px,
-        #fafbfc;
-
-    border: 1px solid var(--border);
-
-    border-radius: 16px;
-
     overflow: hidden;
+
+    display: flex;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 45px
+        rgba(0,0,0,.10);
+
 }
 
 
-/* =========================
-   Design Canvas
-========================= */
+/* =========================================================
+   التصميم الأساسي
+   1700 × 1000
+========================================================= */
 
 .design-canvas {
-    width: 100%;
-
-    aspect-ratio: 17 / 10;
 
     position: relative;
 
+    width: 1700px;
+
+    height: 1000px;
+
+    min-width: 1700px;
+
+    min-height: 1000px;
+
+    flex: 0 0 1700px;
+
     overflow: hidden;
 
-    border-radius: 8px;
+    isolation: isolate;
 
     background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(255,255,255,0.7),
-            transparent 22%
-        ),
-        linear-gradient(
-            135deg,
-            #e9f0ee 0%,
-            #f6f7f3 48%,
-            #dce8e5 100%
-        );
+        #f7f6f1;
 
-    box-shadow:
-        0 20px 50px rgba(0,0,0,0.12);
+    color:
+        var(--canvas-text);
 
-    font-family:
-        "Cairo",
-        "Noto Sans Arabic",
-        Arial,
-        sans-serif;
-
-    transition:
-        background 0.4s ease;
 }
 
 
-/* =========================
-   Canvas Decorations
-========================= */
+/* =========================================================
+   زخارف
+========================================================= */
 
 .decor {
+
     position: absolute;
 
     pointer-events: none;
+
+    z-index: 0;
+
 }
 
+
 .decor-one {
-    width: 45%;
+
+    width: 620px;
+    height: 620px;
+
+    top: -245px;
+    left: -70px;
+
+    border-radius: 50%;
+
+    background:
+        #dce5e2;
+
+}
+
+
+.decor-two {
+
+    width: 285px;
+    height: 285px;
+
+    left: 120px;
+    bottom: 95px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(245,220,171,.43);
+
+}
+
+
+.decor-three {
+
+    width: 330px;
+    height: 330px;
+
+    right: -90px;
+    bottom: -135px;
+
+    border-radius: 50%;
+
+    border:
+        3px solid
+        rgba(91,137,123,.16);
+
+}
+
+
+/* =========================================================
+   الشعارات
+   لا يوجد fallback نهائيًا
+========================================================= */
+
+.canvas-logo {
+
+    position: absolute;
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.canvas-logo img {
+
+    display: block;
+
+    width: 100%;
 
     height: 100%;
 
-    left: -13%;
+    object-fit: contain;
 
-    top: -40%;
-
-    border-radius: 50%;
-
-    background: rgba(20, 127, 131, 0.09);
-
-    transform: rotate(-20deg);
-}
-
-.decor-two {
-    width: 30%;
-
-    aspect-ratio: 1;
-
-    right: -9%;
-
-    bottom: -28%;
-
-    border-radius: 50%;
-
-    border: 1px solid rgba(20, 127, 131, 0.14);
-}
-
-.decor-three {
-    width: 16%;
-
-    aspect-ratio: 1;
-
-    left: 7%;
-
-    bottom: 10%;
-
-    border-radius: 50%;
-
-    background: rgba(244, 197, 66, 0.15);
-}
-
-
-/* =========================
-   Canvas Logos
-========================= */
-
-.canvas-logo {
-    position: absolute;
-
-    z-index: 5;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.project-logo {
-    top: 6%;
-/* =========================
-   الشعارات — توزيع نهائي
-========================= */
-
-.canvas-logo {
-    position: absolute;
-
-    z-index: 20;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    pointer-events: none;
 }
 
 
 /* شعار فضاء — أعلى اليمين */
 
 .project-logo {
-    top: 5.5%;
-    right: 5.5%;
 
-    width: 8.5%;
-    max-width: 145px;
+    top: 65px;
+
+    right: 70px;
+
+    width: 125px;
+
+    height: 125px;
+
 }
 
 
 /* شعار الفريق — أعلى اليسار */
 
 .team-logo {
-    top: 5.5%;
-    left: 5.5%;
 
-    width: 8.5%;
-    max-width: 145px;
+    top: 65px;
+
+    left: 70px;
+
+    width: 125px;
+
+    height: 125px;
+
 }
 
 
-/* الصور */
-
-.canvas-logo img {
-    width: 100%;
-    height: auto;
-
-    object-fit: contain;
-
-    display: block;
-}
-
-
-/* البديل في حالة عدم وجود الصورة */
-
-.logo-fallback {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 18%;
-
-    background: rgba(255, 255, 255, 0.82);
-
-    border: 1px solid rgba(0, 0, 0, 0.06);
-
-    color: var(--primary);
-
-    font-size: clamp(16px, 2vw, 35px);
-
-    font-weight: 900;
-}
-
-.canvas-logo img {
-    width: 100%;
-
-    height: auto;
-
-    object-fit: contain;
-}
-
-.logo-fallback {
-    width: 100%;
-
-    aspect-ratio: 1;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 18%;
-
-    background: rgba(255,255,255,0.8);
-
-    border: 1px solid rgba(0,0,0,0.06);
-
-    color: var(--primary);
-
-    font-size: clamp(16px, 2vw, 35px);
-
-    font-weight: 900;
-}
-
-
-/* =========================
-   Canvas Content
-========================= */
+/* =========================================================
+   المحتوى
+========================================================= */
 
 .canvas-content {
+
     position: absolute;
 
-    inset: 0;
+    z-index: 5;
 
-    z-index: 4;
+    top: 225px;
+
+    left: 100px;
+
+    right: 100px;
+
+    bottom: 150px;
 
     display: flex;
 
@@ -1084,125 +1067,80 @@ img {
 
     align-items: center;
 
-    justify-content: center;
-
     text-align: center;
 
-    padding:
-        12% 10%;
 }
+
+
+/* =========================================================
+   اسم المادة
+========================================================= */
 
 .subject-badge {
-    padding: 0.8% 3%;
 
-    border-radius: 100px;
-
-    background: var(--primary);
-
-    color: white;
-
-    font-size: clamp(9px, 1.1vw, 22px);
-
-    font-weight: 800;
-
-    box-shadow:
-        0 8px 20px rgba(20,127,131,0.16);
-}
-
-.unit-display {
-    margin-top: 2.2%;
-
-    color: #59666b;
-
-    font-size: clamp(9px, 1.15vw, 23px);
-
-    font-weight: 700;
-}
-
-.title-decoration {
     display: flex;
 
     align-items: center;
 
     justify-content: center;
 
-    gap: 7px;
+    min-height: 66px;
 
-    width: 20%;
+    max-width: 1100px;
 
-    margin: 2.2% 0;
-}
+    padding:
+        8px 42px;
 
-.title-decoration span {
-    flex: 1;
+    border-radius: 50px;
 
-    height: 2px;
+    background:
+        #536f49;
 
-    background: var(--primary);
+    color: white;
 
-    opacity: 0.3;
-}
-
-.title-decoration i {
-    width: 9px;
-    height: 9px;
-
-    transform: rotate(45deg);
-
-    background: var(--accent);
-}
-
-.lesson-title {
-    max-width: 85%;
-
-    color: #18272a;
-
-    font-size: clamp(22px, 4vw, 76px);
+    font-size: 34px;
 
     line-height: 1.35;
 
     font-weight: 900;
 
-    letter-spacing: -0.025em;
+    white-space: nowrap;
 
-    text-wrap: balance;
-}
-
-.bottom-decoration {
-    display: flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    margin-top: 4%;
-}
-
-.bottom-decoration span {
-    width: 5px;
-    height: 5px;
-
-    border-radius: 50%;
-
-    background: var(--primary);
-
-    opacity: 0.4;
 }
 
 
-/* =========================
-   Canvas Footer
-========================= */
+/* =========================================================
+   الباب
+========================================================= */
 
-.canvas-footer {
-    position: absolute;
+.unit-display {
 
-    bottom: 4%;
+    margin-top: 48px;
 
-    left: 5%;
-    right: 5%;
+    color: #5d696d;
 
-    z-index: 6;
+    font-size: 50px;
+
+    line-height: 1.3;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+}
+
+
+/* =========================================================
+   الفاصل
+========================================================= */
+
+.title-decoration {
+
+    width: 275px;
+
+    height: 48px;
+
+    margin-top: 15px;
 
     display: flex;
 
@@ -1210,69 +1148,526 @@ img {
 
     justify-content: center;
 
-    gap: 8px;
+    gap: 20px;
 
-    color: #7a8588;
-
-    font-size: clamp(7px, 0.7vw, 14px);
-
-    font-weight: 600;
 }
 
-.footer-separator {
-    color: var(--accent);
+
+.title-decoration span {
+
+    width: 100px;
+
+    height: 7px;
+
+    border-radius: 20px;
+
+    background:
+        #b9c0b4;
+
+}
+
+
+.title-decoration i {
+
+    width: 28px;
+    height: 28px;
+
+    display: block;
+
+    flex: 0 0 28px;
+
+    transform:
+        rotate(45deg);
+
+    background:
+        #d5a92a;
+
+}
+
+
+/* =========================================================
+   عنوان الدرس
+========================================================= */
+
+.lesson-title {
+
+    width: 1350px;
+
+    max-width: 1350px;
+
+    margin:
+        70px 0 0;
+
+    color:
+        #162629;
+
+    font-size: 100px;
+
+    line-height: 1.25;
 
     font-weight: 900;
+
+    letter-spacing: -1px;
+
+    overflow-wrap: break-word;
+
+    word-break: normal;
+
 }
 
 
-/* =========================
-   Preview Footer
-========================= */
+/* =========================================================
+   زخرفة أسفل العنوان
+========================================================= */
 
-.preview-footer {
+.bottom-decoration {
+
     display: flex;
 
     align-items: center;
-    justify-content: space-between;
 
-    margin-top: 14px;
+    gap: 10px;
 
-    color: var(--text-muted);
+    margin-top: 45px;
 
-    font-size: 9px;
 }
 
+
+.bottom-decoration span {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background:
+        #d5a92a;
+
+}
+
+
+.bottom-decoration span:nth-child(2) {
+
+    width: 12px;
+    height: 12px;
+
+}
+
+
+/* =========================================================
+   التذييل
+========================================================= */
+
+.canvas-footer {
+
+    position: absolute;
+
+    z-index: 8;
+
+    left: 0;
+    right: 0;
+
+    bottom: 40px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 25px;
+
+    color:
+        #7d8585;
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+}
+
+
+.footer-separator {
+
+    color:
+        #d5a92a;
+
+    font-size: 20px;
+
+}
+
+
+/* =========================================================
+   ألوان المواد
+========================================================= */
+
+
+/* التربية الإسلامية */
+
+.subject-islamic {
+
+    --subject-primary: #536f49;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-islamic .subject-badge {
+
+    background:
+        #536f49;
+
+}
+
+
+/* الدراسات اللغوية */
+
+.subject-arabic-linguistics {
+
+    --subject-primary: #776b9d;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-arabic-linguistics .subject-badge {
+
+    background:
+        #776b9d;
+
+}
+
+
+/* الأدب والنصوص */
+
+.subject-arabic-literature {
+
+    --subject-primary: #79533c;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-arabic-literature .subject-badge {
+
+    background:
+        #79533c;
+
+}
+
+
+/* البلاغة */
+
+.subject-arabic-rhetoric {
+
+    --subject-primary: #a83f87;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-arabic-rhetoric .subject-badge {
+
+    background:
+        #8e397d;
+
+}
+
+
+/* الإنجليزية */
+
+.subject-english {
+
+    --subject-primary: #327d89;
+
+    --subject-secondary: #e4b83b;
+
+}
+
+
+.subject-english .subject-badge {
+
+    background:
+        #327d89;
+
+}
+
+
+/* الرياضيات */
+
+.subject-mathematics {
+
+    --subject-primary: #386f89;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-mathematics .subject-badge {
+
+    background:
+        #386f89;
+
+}
+
+
+/* الكهرومغناطيسية */
+
+.subject-electromagnetism {
+
+    --subject-primary: #376d80;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-electromagnetism .subject-badge {
+
+    background:
+        #376d80;
+
+}
+
+
+/* الميكانيكا */
+
+.subject-mechanics {
+
+    --subject-primary: #5b6470;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-mechanics .subject-badge {
+
+    background:
+        #5b6470;
+
+}
+
+
+/* الكيمياء */
+
+.subject-chemistry {
+
+    --subject-primary: #5d7484;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-chemistry .subject-badge {
+
+    background:
+        #5d7484;
+
+}
+
+
+/* الأحياء */
+
+.subject-biology {
+
+    --subject-primary: #4f8063;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-biology .subject-badge {
+
+    background:
+        #4f8063;
+
+}
+
+
+/* تقنية المعلومات */
+
+.subject-information-technology {
+
+    --subject-primary: #177c84;
+
+    --subject-secondary: #e5bd32;
+
+}
+
+
+.subject-information-technology .subject-badge {
+
+    background:
+        #177c84;
+
+}
+
+
+/* الإحصاء */
+
+.subject-statistics {
+
+    --subject-primary: #526b84;
+
+    --subject-secondary: #d5a92a;
+
+}
+
+
+.subject-statistics .subject-badge {
+
+    background:
+        #526b84;
+
+}
+
+
+/* =========================================================
+   نهاية باب
+========================================================= */
+
+.template-unit .subject-badge {
+
+    transform:
+        scale(.92);
+
+}
+
+
+.template-unit .unit-display {
+
+    margin-top: 35px;
+
+}
+
+
+.template-unit .lesson-title {
+
+    margin-top: 45px;
+
+    font-size: 92px;
+
+}
+
+
+/* =========================================================
+   النمط الحديث
+========================================================= */
+
+.style-modern .decor-one {
+
+    background:
+        rgba(82,120,110,.20);
+
+}
+
+
+.style-modern .subject-badge {
+
+    border-radius: 18px;
+
+}
+
+
+.style-modern .lesson-title {
+
+    letter-spacing:
+        -2px;
+
+}
+
+
+/* =========================================================
+   النمط الهادئ
+========================================================= */
+
+.style-minimal .decor {
+
+    opacity: .45;
+
+}
+
+
+.style-minimal .subject-badge {
+
+    background:
+        transparent;
+
+    border:
+        5px solid
+        var(--subject-primary);
+
+    color:
+        var(--subject-primary);
+
+}
+
+
+.style-minimal .lesson-title {
+
+    color:
+        #364346;
+
+}
+
+
+/* =========================================================
+   معلومات أسفل المعاينة
+========================================================= */
+
+.preview-footer {
+
+    margin-top: 11px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+}
+
+
 .preview-status {
+
     display: flex;
 
     align-items: center;
 
     gap: 6px;
+
 }
 
+
 .status-indicator {
-    width: 6px;
-    height: 6px;
+
+    width: 7px;
+    height: 7px;
 
     border-radius: 50%;
 
-    background: #4caf7a;
+    background:
+        #6ca35e;
 
-    box-shadow:
-        0 0 0 4px rgba(76, 175, 122, 0.08);
-}
-
-.preview-ratio {
-    direction: ltr;
 }
 
 
-/* =========================
+/* =========================================================
    Modal
-========================= */
+========================================================= */
 
 .modal {
+
     position: fixed;
 
     inset: 0;
@@ -1282,574 +1677,163 @@ img {
     display: none;
 
     align-items: center;
+
     justify-content: center;
 
-    padding: 20px;
 }
+
 
 .modal.active {
+
     display: flex;
+
 }
 
+
 .modal-overlay {
+
     position: absolute;
 
     inset: 0;
 
-    background: rgba(12, 18, 25, 0.55);
+    background:
+        rgba(10,15,16,.45);
 
-    backdrop-filter: blur(7px);
+    backdrop-filter:
+        blur(5px);
+
 }
 
+
 .modal-content {
-    width: min(430px, 100%);
 
     position: relative;
 
     z-index: 2;
 
-    background: white;
-
-    border-radius: 20px;
+    width: min(
+        420px,
+        calc(100% - 35px)
+    );
 
     padding: 30px;
 
-    text-align: center;
+    border-radius: 22px;
+
+    background: white;
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,0.2);
+        0 25px 70px
+        rgba(0,0,0,.20);
 
-    animation:
-        modalIn 0.25s ease;
+    text-align: center;
+
 }
 
-@keyframes modalIn {
-    from {
-        opacity: 0;
-        transform: translateY(15px) scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
 
 .modal-close {
+
     position: absolute;
 
-    top: 13px;
-    left: 13px;
+    top: 12px;
 
-    width: 32px;
-    height: 32px;
+    right: 12px;
 
-    border-radius: 9px;
+    width: 35px;
+    height: 35px;
 
-    background: var(--surface-soft);
+    border: 0;
 
-    color: var(--text-muted);
+    background: #f3f4f4;
 
-    font-size: 20px;
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 22px;
+
 }
 
+
 .modal-icon {
-    display: inline-flex;
 
-    width: 52px;
-    height: 52px;
+    display: block;
 
-    border-radius: 16px;
-
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(20,127,131,0.08);
+    margin-bottom: 8px;
 
     color: var(--primary);
 
-    font-size: 24px;
+    font-size: 30px;
 
-    margin-bottom: 13px;
 }
+
 
 .modal-content h2 {
-    font-size: 20px;
 
-    margin-bottom: 10px;
+    margin: 0 0 10px;
+
 }
 
+
 .modal-content p {
-    color: var(--text-soft);
+
+    color: var(--muted);
 
     font-size: 12px;
 
-    line-height: 2;
+    line-height: 1.9;
 
-    margin-top: 7px;
 }
 
 
-/* =========================
-   Subject Color Themes
-========================= */
-
-/* التربية الإسلامية */
-.design-canvas.subject-islamic {
-    --primary: #526b45;
-    --primary-dark: #394c31;
-    --accent: #c9a227;
-
-    background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(201,162,39,0.14),
-            transparent 22%
-        ),
-        linear-gradient(
-            135deg,
-            #e9eee8,
-            #f5f2e8,
-            #dce5dc
-        );
-}
-
-
-/* تقنية المعلومات */
-.design-canvas.subject-information-technology {
-    --primary: #087f86;
-    --primary-dark: #075e65;
-    --accent: #f1c933;
-
-    background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(8,127,134,0.14),
-            transparent 22%
-        ),
-        linear-gradient(
-            135deg,
-            #e5f2f3,
-            #f5f8f8,
-            #d9e9ee
-        );
-}
-
-
-/* البلاغة */
-.design-canvas.subject-arabic-rhetoric {
-    --primary: #7d286e;
-    --primary-dark: #552052;
-    --accent: #f0c933;
-
-    background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(125,40,110,0.14),
-            transparent 22%
-        ),
-        linear-gradient(
-            135deg,
-            #f2e6ef,
-            #faf6f8,
-            #e7ddec
-        );
-}
-
-
-/* الأدب والنصوص */
-.design-canvas.subject-arabic-literature {
-    --primary: #8a6433;
-    --primary-dark: #503d2b;
-    --accent: #d9b332;
-
-    background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(138,100,51,0.14),
-            transparent 22%
-        ),
-        linear-gradient(
-            135deg,
-            #eee6d8,
-            #faf8f1,
-            #e3d8c7
-        );
-}
-
-
-/* الدراسات اللغوية */
-.design-canvas.subject-arabic-linguistics {
-    --primary: #7669a9;
-    --primary-dark: #564d82;
-    --accent: #e3bf3d;
-
-    background:
-        radial-gradient(
-            circle at 80% 15%,
-            rgba(118,105,169,0.14),
-            transparent 22%
-        ),
-        linear-gradient(
-            135deg,
-            #eeeef7,
-            #faf9fa,
-            #e4eee5
-        );
-}
-
-
-/* اللغة الإنجليزية */
-.design-canvas.subject-english {
-    --primary: #426b8c;
-    --primary-dark: #304f69;
-    --accent: #e4bf3b;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e7eef4,
-            #f8f9f9,
-            #dfe9ee
-        );
-}
-
-
-/* الرياضيات */
-.design-canvas.subject-mathematics {
-    --primary: #405d73;
-    --primary-dark: #2d4355;
-    --accent: #e0b934;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e5ebef,
-            #f8fafb,
-            #dce6ea
-        );
-}
-
-
-/* الفيزياء */
-.design-canvas.subject-electromagnetism {
-    --primary: #315f75;
-    --primary-dark: #25495c;
-    --accent: #e4c33d;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e4eef1,
-            #f8faf9,
-            #dce8e9
-        );
-}
-
-
-/* الميكانيكا */
-.design-canvas.subject-mechanics {
-    --primary: #596b73;
-    --primary-dark: #3f4d53;
-    --accent: #d8b63a;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e9edee,
-            #fafafa,
-            #e0e5e5
-        );
-}
-
-
-/* الكيمياء */
-.design-canvas.subject-chemistry {
-    --primary: #47796e;
-    --primary-dark: #31594f;
-    --accent: #e0bd38;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e4efec,
-            #f8faf8,
-            #dce8e3
-        );
-}
-
-
-/* الأحياء */
-.design-canvas.subject-biology {
-    --primary: #50805e;
-    --primary-dark: #3b6046;
-    --accent: #d7b938;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e5efe6,
-            #f9faf7,
-            #dce9df
-        );
-}
-
-
-/* الإحصاء */
-.design-canvas.subject-statistics {
-    --primary: #536d82;
-    --primary-dark: #3b4f60;
-    --accent: #dfbd3a;
-
-    background:
-        linear-gradient(
-            135deg,
-            #e6edf2,
-            #f9fafb,
-            #dfe7ec
-        );
-}
-
-
-/* =========================
-   Unit Template
-========================= */
-
-.design-canvas.template-unit .canvas-content {
-    justify-content: center;
-}
-
-.design-canvas.template-unit .subject-badge {
-    border-radius: 12px;
-}
-
-.design-canvas.template-unit .lesson-title {
-    font-size: clamp(20px, 3.3vw, 65px);
-}
-
-.design-canvas.template-unit .unit-display {
-    order: -1;
-
-    margin-bottom: 2%;
-
-    font-size: clamp(10px, 1.3vw, 26px);
-
-    color: var(--primary);
-
-    font-weight: 800;
-}
-
-
-/* =========================
-   Modern Style
-========================= */
-
-.design-canvas.style-modern {
-    background:
-        linear-gradient(
-            120deg,
-            var(--primary) 0%,
-            var(--primary-dark) 42%,
-            #eef2f1 42%
-        );
-}
-
-.design-canvas.style-modern .canvas-content {
-    align-items: flex-start;
-
-    text-align: right;
-
-    padding-right: 18%;
-    padding-left: 8%;
-}
-
-.design-canvas.style-modern .subject-badge {
-    background: var(--accent);
-
-    color: #27302f;
-}
-
-.design-canvas.style-modern .lesson-title {
-    color: #ffffff;
-
-    max-width: 90%;
-}
-
-.design-canvas.style-modern .unit-display {
-    color: rgba(255,255,255,0.75);
-}
-
-.design-canvas.style-modern .title-decoration {
-    justify-content: flex-start;
-    width: 18%;
-}
-
-.design-canvas.style-modern .title-decoration span {
-    background: white;
-}
-
-.design-canvas.style-modern .decor-one {
-    display: none;
-}
-
-
-/* =========================
-   Minimal Style
-========================= */
-
-.design-canvas.style-minimal {
-    background: #f8f8f5;
-}
-
-.design-canvas.style-minimal .decor {
-    opacity: 0.45;
-}
-
-.design-canvas.style-minimal .lesson-title {
-    color: #26302e;
-}
-
-.design-canvas.style-minimal .subject-badge {
-    background: transparent;
-
-    color: var(--primary);
-
-    border: 1px solid var(--primary);
-
-    box-shadow: none;
-}
-
-
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 1100px) {
+/* =========================================================
+   الهاتف
+========================================================= */
+
+@media (max-width: 1000px) {
 
     .app-container {
-        grid-template-columns: 330px minmax(0, 1fr);
-
-        gap: 18px;
-    }
-
-    .control-panel,
-    .preview-area {
-        padding: 19px;
-    }
-
-}
-
-
-@media (max-width: 850px) {
-
-    .app-header {
-        padding: 0 17px;
-    }
-
-    .app-container {
-        width: min(100% - 24px, 700px);
 
         grid-template-columns: 1fr;
 
-        margin-top: 18px;
     }
 
     .control-panel {
-        position: static;
-
-        max-height: none;
 
         order: 2;
+
     }
 
     .preview-area {
-        order: 1;
-    }
 
-    .canvas-wrapper {
-        padding: 10px;
+        order: 1;
+
     }
 
 }
 
 
-@media (max-width: 520px) {
+@media (max-width: 600px) {
 
     .app-header {
-        height: 70px;
-    }
 
-    .brand-icon {
-        width: 38px;
-        height: 38px;
-    }
+        padding: 0 15px;
 
-    .brand-info h1 {
-        font-size: 14px;
     }
 
     .app-container {
-        width: calc(100% - 16px);
+
+        width:
+            calc(100% - 20px);
+
+        margin-top: 15px;
+
     }
 
-    .template-grid {
-        grid-template-columns: 1fr;
+    .control-panel {
+
+        padding: 17px;
+
     }
 
-    .preview-header {
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 9px;
-    }
-
-    .preview-size {
-        width: 100%;
-
-        text-align: center;
-    }
-
-    .preview-footer {
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 7px;
-    }
-
-    .canvas-content {
-        padding:
-            12% 8%;
-    }
-
-    .lesson-title {
-        max-width: 92%;
-    }
-
-}
-
-
-/* =========================
-   Accessibility
-========================= */
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-    outline: 3px solid rgba(20,127,131,0.2);
-
-    outline-offset: 2px;
-}
-
-
-/* =========================
-   Selection
-========================= */
-
-::selection {
-    background: rgba(20,127,131,0.18);
-
-    color: var(--text);
-  }
+        }
