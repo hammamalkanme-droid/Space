@@ -3,89 +3,42 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#f7f6f2"
-    >
-
-    <meta
-        name="description"
-        content="مولد التصاميم التعليمية — فضاء"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f6f2">
+    <meta name="description" content="مولد التصاميم التعليمية — فضاء">
 
     <title>فضاء | مولد التصاميم التعليمية</title>
 
-
-    <!-- =====================================================
-         الخط العربي
-    ====================================================== -->
-
+    <!-- الخط العربي -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=block" rel="stylesheet">
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=block"
-        rel="stylesheet"
-    >
+    <!-- مكتبة التصدير -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
-    <!-- =====================================================
-         مكتبة التصدير
-         تحميلها قبل app.js حتى لا يبدأ التصدير قبل جاهزيتها
-    ====================================================== -->
-
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-    ></script>
-
-
-    <!-- =====================================================
-         CSS
-    ====================================================== -->
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
-
-    <!-- =====================================================
-         إعدادات ثابتة للتصميم والتصدير
-         هذه القواعد تمنع مشاكل اتجاه النص العربي
-    ====================================================== -->
-
+    <!-- إعدادات التصدير والثبات -->
     <style>
-
-        /*
-         * لا تسمح للمتصفح بإعادة تشكيل النص
-         * بطريقة مختلفة داخل نسخة التصدير.
-         */
-
         #designCanvas,
         #designCanvas * {
             box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
         }
-
-
-        /*
-         * التصميم نفسه RTL.
-         */
 
         #designCanvas {
             direction: rtl;
             unicode-bidi: isolate;
+            width: 1700px !important;
+            height: 1000px !important;
+            min-width: 1700px !important;
+            min-height: 1000px !important;
+            max-width: none !important;
+            max-height: none !important;
         }
-
-
-        /*
-         * النصوص العربية الرئيسية.
-         */
 
         #previewSubject,
         #previewUnit,
@@ -97,29 +50,16 @@
             writing-mode: horizontal-tb;
         }
 
-
-        /*
-         * منع أي سلوك غريب من letter-spacing
-         * مع الحروف العربية.
-         */
-
         #previewTitle {
             letter-spacing: 0 !important;
             word-spacing: normal;
             text-rendering: geometricPrecision;
         }
 
-
-        /*
-         * الصور يجب أن تكون صورًا فقط.
-         * لا fallback ولا نص بديل ظاهر.
-         */
-
         .canvas-logo {
             font-size: 0;
             line-height: 0;
         }
-
 
         .canvas-logo img {
             display: block !important;
@@ -128,861 +68,242 @@
             object-fit: contain;
         }
 
-
-        /*
-         * إخفاء أي fallback لو كان موجودًا
-         * لأي سبب في ملف CSS قديم.
-         */
-
         .canvas-logo .logo-fallback {
             display: none !important;
             visibility: hidden !important;
         }
-
-
-        /*
-         * منع تحديد النص أثناء التصدير والمعاينة.
-         */
-
-        #designCanvas,
-        #designCanvas * {
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-
-        /*
-         * ثبات حجم التصميم الحقيقي.
-         */
-
-        #designCanvas {
-            width: 1700px !important;
-            height: 1000px !important;
-            min-width: 1700px !important;
-            min-height: 1000px !important;
-            max-width: none !important;
-            max-height: none !important;
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     رأس التطبيق
-====================================================== -->
-
+<!-- رأس التطبيق -->
 <header class="app-header">
-
     <div class="brand">
-
-        <div class="brand-icon">
-            ف
-        </div>
-
+        <div class="brand-icon">ف</div>
         <div class="brand-info">
-
-            <h1>
-                مولد التصاميم
-            </h1>
-
-            <span>
-                فضاء التعليمية
-            </span>
-
+            <h1>مولد التصاميم</h1>
+            <span>فضاء التعليمية</span>
         </div>
-
     </div>
-
 
     <div class="header-actions">
-
-        <button
-            type="button"
-            class="icon-button"
-            id="resetBtn"
-            title="إعادة ضبط"
-        >
-            ↻
-        </button>
-
-
-        <button
-            type="button"
-            class="help-button"
-            id="helpBtn"
-        >
-            ؟
-        </button>
-
+        <button type="button" class="icon-button" id="resetBtn" title="إعادة ضبط">↻</button>
+        <button type="button" class="help-button" id="helpBtn">؟</button>
     </div>
-
 </header>
 
-
-
-<!-- =====================================================
-     التطبيق
-====================================================== -->
-
+<!-- التطبيق -->
 <main class="app-container">
 
-
-    <!-- =================================================
-         لوحة التحكم
-    ================================================== -->
-
+    <!-- لوحة التحكم -->
     <aside class="control-panel">
-
-
         <div class="panel-heading">
-
-            <span class="panel-label">
-                المحرر
-            </span>
-
-            <h2>
-                إعداد التصميم
-            </h2>
-
-            <p>
-                اختر المادة وأدخل بيانات الدرس.
-            </p>
-
+            <span class="panel-label">المحرر</span>
+            <h2>إعداد التصميم</h2>
+            <p>اختر المادة وأدخل بيانات الدرس.</p>
         </div>
 
-
-
-        <!-- =================================================
-             نوع التصميم
-        ================================================== -->
-
+        <!-- نوع التصميم -->
         <section class="control-section">
-
-            <label class="section-title">
-                نوع التصميم
-            </label>
-
-
+            <label class="section-title">نوع التصميم</label>
             <div class="template-grid">
-
-                <button
-                    type="button"
-                    class="template-option active"
-                    data-template="lesson"
-                >
-
-                    <span class="template-icon">
-                        ▣
-                    </span>
-
+                <button type="button" class="template-option active" data-template="lesson">
+                    <span class="template-icon">▣</span>
                     <span>
-
-                        <strong>
-                            تصميم درس
-                        </strong>
-
-                        <small>
-                            عنوان درس جديد
-                        </small>
-
+                        <strong>تصميم درس</strong>
+                        <small>عنوان درس جديد</small>
                     </span>
-
                 </button>
 
-
-
-                <button
-                    type="button"
-                    class="template-option"
-                    data-template="unit"
-                >
-
-                    <span class="template-icon">
-                        ▤
-                    </span>
-
+                <button type="button" class="template-option" data-template="unit">
+                    <span class="template-icon">▤</span>
                     <span>
-
-                        <strong>
-                            نهاية باب
-                        </strong>
-
-                        <small>
-                            ملخص شامل للباب
-                        </small>
-
+                        <strong>نهاية باب</strong>
+                        <small>ملخص شامل للباب</small>
                     </span>
-
                 </button>
-
             </div>
-
         </section>
 
-
-
-        <!-- =================================================
-             المادة
-        ================================================== -->
-
+        <!-- المادة -->
         <section class="control-section">
-
-            <label
-                for="subject"
-                class="section-title"
-            >
-                المادة
-            </label>
-
-
-            <select
-                id="subject"
-                class="form-select"
-            >
-
-                <option value="islamic">
-                    التربية الإسلامية / القرآن الكريم
-                </option>
-
-                <option value="arabic-linguistics">
-                    اللغة العربية — الدراسات اللغوية
-                </option>
-
-                <option value="arabic-literature">
-                    اللغة العربية — الأدب والنصوص
-                </option>
-
-                <option value="arabic-rhetoric">
-                    اللغة العربية — البلاغة
-                </option>
-
-                <option value="english">
-                    اللغة الإنجليزية
-                </option>
-
-                <option value="mathematics">
-                    الرياضيات
-                </option>
-
-                <option value="electromagnetism">
-                    الفيزياء الكهرومغناطيسية
-                </option>
-
-                <option value="mechanics">
-                    الميكانيكا
-                </option>
-
-                <option value="chemistry">
-                    الكيمياء
-                </option>
-
-                <option value="biology">
-                    الأحياء
-                </option>
-
-                <option value="information-technology">
-                    تقنية المعلومات
-                </option>
-
-                <option value="statistics">
-                    الإحصاء
-                </option>
-
+            <label for="subject" class="section-title">المادة</label>
+            <select id="subject" class="form-select">
+                <option value="islamic">التربية الإسلامية / القرآن الكريم</option>
+                <option value="arabic-linguistics">اللغة العربية — الدراسات اللغوية</option>
+                <option value="arabic-literature">اللغة العربية — الأدب والنصوص</option>
+                <option value="arabic-rhetoric">اللغة العربية — البلاغة</option>
+                <option value="english">اللغة الإنجليزية</option>
+                <option value="mathematics">الرياضيات</option>
+                <option value="electromagnetism">الفيزياء الكهرومغناطيسية</option>
+                <option value="mechanics">الميكانيكا</option>
+                <option value="chemistry">الكيمياء</option>
+                <option value="biology">الأحياء</option>
+                <option value="information-technology">تقنية المعلومات</option>
+                <option value="statistics">الإحصاء</option>
             </select>
-
         </section>
 
-
-
-        <!-- =================================================
-             البيانات
-        ================================================== -->
-
+        <!-- البيانات -->
         <section class="control-section">
+            <label for="unitName" class="section-title">الباب / الوحدة</label>
+            <input type="text" id="unitName" class="form-input" placeholder="مثال: الوحدة الأولى" autocomplete="off">
 
-            <label
-                for="unitName"
-                class="section-title"
-            >
-                الباب / الوحدة
-            </label>
-
-
-            <input
-                type="text"
-                id="unitName"
-                class="form-input"
-                placeholder="مثال: الوحدة الأولى"
-                autocomplete="off"
-            >
-
-
-            <label
-                for="lessonName"
-                class="section-title input-label"
-            >
-                عنوان الدرس
-            </label>
-
-
-            <textarea
-                id="lessonName"
-                class="form-textarea"
-                rows="3"
-                placeholder="اكتب عنوان الدرس هنا..."
-            ></textarea>
-
+            <label for="lessonName" class="section-title input-label">عنوان الدرس</label>
+            <textarea id="lessonName" class="form-textarea" rows="3" placeholder="اكتب عنوان الدرس هنا..."></textarea>
         </section>
 
-
-
-        <!-- =================================================
-             النمط
-        ================================================== -->
-
+        <!-- النمط -->
         <section class="control-section">
-
             <div class="section-title-row">
-
-                <label class="section-title">
-                    النمط
-                </label>
-
-                <span class="live-label">
-                    مباشر
-                </span>
-
+                <label class="section-title">النمط</label>
+                <span class="live-label">مباشر</span>
             </div>
-
 
             <div class="style-options">
-
-                <button
-                    type="button"
-                    class="style-option active"
-                    data-style="default"
-                >
-
-                    <span
-                        class="style-preview style-one"
-                    ></span>
-
-                    <span>
-                        أساسي
-                    </span>
-
+                <button type="button" class="style-option active" data-style="default">
+                    <span class="style-preview style-one"></span>
+                    <span>أساسي</span>
                 </button>
 
-
-                <button
-                    type="button"
-                    class="style-option"
-                    data-style="modern"
-                >
-
-                    <span
-                        class="style-preview style-two"
-                    ></span>
-
-                    <span>
-                        حديث
-                    </span>
-
+                <button type="button" class="style-option" data-style="modern">
+                    <span class="style-preview style-two"></span>
+                    <span>حديث</span>
                 </button>
 
-
-                <button
-                    type="button"
-                    class="style-option"
-                    data-style="minimal"
-                >
-
-                    <span
-                        class="style-preview style-three"
-                    ></span>
-
-                    <span>
-                        هادئ
-                    </span>
-
+                <button type="button" class="style-option" data-style="minimal">
+                    <span class="style-preview style-three"></span>
+                    <span>هادئ</span>
                 </button>
-
             </div>
-
         </section>
 
-
-
-        <!-- =================================================
-             الشعارات
-        ================================================== -->
-
+        <!-- الشعارات -->
         <section class="control-section">
-
-            <label class="section-title">
-                الشعارات
-            </label>
-
-
+            <label class="section-title">الشعارات</label>
             <div class="logo-status">
-
-
                 <div class="logo-item">
-
                     <div class="logo-mini">
-
-                        <img
-                            src="assets/logos/fadaa.png"
-                            alt="شعار فضاء"
-                            draggable="false"
-                        >
-
+                        <img src="assets/logos/fadaa.png" alt="شعار فضاء" draggable="false">
                     </div>
-
-
                     <div>
-
-                        <strong>
-                            شعار فضاء
-                        </strong>
-
-                        <small>
-                            ثابت في التصميم
-                        </small>
-
+                        <strong>شعار فضاء</strong>
+                        <small>ثابت في التصميم</small>
                     </div>
-
-
                     <span class="status-dot"></span>
-
                 </div>
 
-
-
                 <div class="logo-item">
-
                     <div class="logo-mini">
-
-                        <img
-                            src="assets/logos/team.png"
-                            alt="شعار الفريق"
-                            draggable="false"
-                        >
-
+                        <img src="assets/logos/team.png" alt="شعار الفريق" draggable="false">
                     </div>
-
-
                     <div>
-
-                        <strong>
-                            شعار الفريق
-                        </strong>
-
-                        <small>
-                            ثابت في التصميم
-                        </small>
-
+                        <strong>شعار الفريق</strong>
+                        <small>ثابت في التصميم</small>
                     </div>
-
-
                     <span class="status-dot"></span>
-
                 </div>
-
             </div>
-
         </section>
 
-
-
-        <!-- =================================================
-             التصدير
-        ================================================== -->
-
+        <!-- التصدير -->
         <section class="control-section export-section">
-
-            <label class="section-title">
-                التصدير
-            </label>
-
-
+            <label class="section-title">التصدير</label>
             <div class="export-info">
-
                 <div>
-
-                    <span>
-                        الصيغة
-                    </span>
-
-                    <strong>
-                        PNG
-                    </strong>
-
+                    <span>الصيغة</span>
+                    <strong>PNG</strong>
                 </div>
-
-
                 <div>
-
-                    <span>
-                        الجودة
-                    </span>
-
-                    <strong>
-                        عالية جدًا
-                    </strong>
-
+                    <span>الجودة</span>
+                    <strong>عالية جدًا</strong>
                 </div>
-
-
                 <div>
-
-                    <span>
-                        المقاس
-                    </span>
-
-                    <strong>
-                        8500 × 5000
-                    </strong>
-
+                    <span>المقاس</span>
+                    <strong>8500 × 5000</strong>
                 </div>
-
             </div>
 
-
-            <button
-                type="button"
-                class="export-button"
-                id="exportBtn"
-            >
-
-                <span>
-                    ↓
-                </span>
-
-                تصدير التصميم PNG
-
+            <button type="button" class="export-button" id="exportBtn">
+                <span>↓</span> تصدير التصميم PNG
             </button>
-
         </section>
-
     </aside>
 
-
-
-    <!-- =================================================
-         المعاينة
-    ================================================== -->
-
+    <!-- المعاينة -->
     <section class="preview-area">
-
-
         <div class="preview-header">
-
             <div>
-
-                <span class="preview-label">
-                    المعاينة
-                </span>
-
-                <h2>
-                    التصميم
-                </h2>
-
+                <span class="preview-label">المعاينة</span>
+                <h2>التصميم</h2>
             </div>
-
-
-            <div class="preview-size">
-                8500 × 5000 px
-            </div>
-
+            <div class="preview-size">8500 × 5000 px</div>
         </div>
-
-
-
-        <!-- =================================================
-             مساحة التصميم
-        ================================================== -->
 
         <div class="canvas-wrapper">
-
-
-            <div
-                id="designCanvas"
-                class="
-                    design-canvas
-                    subject-islamic
-                    template-lesson
-                "
-                dir="rtl"
-                lang="ar"
-            >
-
-
-                <!-- =================================================
-                     الزخارف
-                ================================================== -->
-
-                <div
-                    class="decor decor-one"
-                    aria-hidden="true"
-                ></div>
-
-                <div
-                    class="decor decor-two"
-                    aria-hidden="true"
-                ></div>
-
-                <div
-                    class="decor decor-three"
-                    aria-hidden="true"
-                ></div>
-
-
-
-                <!-- =================================================
-                     شعار فضاء
-                     الصورة فقط — بدون fallback
-                ================================================== -->
+            <div id="designCanvas" class="design-canvas subject-islamic template-lesson" dir="rtl" lang="ar">
+                <div class="decor decor-one" aria-hidden="true"></div>
+                <div class="decor decor-two" aria-hidden="true"></div>
+                <div class="decor decor-three" aria-hidden="true"></div>
 
                 <div class="canvas-logo project-logo">
-
-                    <img
-                        src="assets/logos/fadaa.png"
-                        alt=""
-                        draggable="false"
-                        decoding="sync"
-                    >
-
+                    <img src="assets/logos/fadaa.png" alt="" draggable="false" decoding="sync">
                 </div>
-
-
-
-                <!-- =================================================
-                     شعار الفريق
-                     الصورة فقط — بدون fallback
-                ================================================== -->
 
                 <div class="canvas-logo team-logo">
-
-                    <img
-                        src="assets/logos/team.png"
-                        alt=""
-                        draggable="false"
-                        decoding="sync"
-                    >
-
+                    <img src="assets/logos/team.png" alt="" draggable="false" decoding="sync">
                 </div>
-
-
-
-                <!-- =================================================
-                     المحتوى الرئيسي
-                ================================================== -->
 
                 <div class="canvas-content">
+                    <div class="subject-badge" id="previewSubject" dir="rtl">التربية الإسلامية</div>
+                    <div class="unit-display" id="previewUnit" dir="rtl">الوحدة الأولى</div>
 
-
-                    <!-- المادة -->
-
-                    <div
-                        class="subject-badge"
-                        id="previewSubject"
-                        dir="rtl"
-                    >
-                        التربية الإسلامية
-                    </div>
-
-
-
-                    <!-- الوحدة -->
-
-                    <div
-                        class="unit-display"
-                        id="previewUnit"
-                        dir="rtl"
-                    >
-                        الوحدة الأولى
-                    </div>
-
-
-
-                    <!-- الفاصل -->
-
-                    <div
-                        class="title-decoration"
-                        aria-hidden="true"
-                    >
-
+                    <div class="title-decoration" aria-hidden="true">
                         <span></span>
-
                         <i></i>
-
                         <span></span>
-
                     </div>
 
+                    <h3 class="lesson-title" id="previewTitle" dir="rtl">عنوان الدرس</h3>
 
-
-                    <!-- =================================================
-                         عنوان الدرس
-                         مهم جدًا:
-                         direction + unicode-bidi
-                    ================================================== -->
-
-                    <h3
-                        class="lesson-title"
-                        id="previewTitle"
-                        dir="rtl"
-                    >
-                        عنوان الدرس
-                    </h3>
-
-
-
-                    <!-- الزخرفة السفلية -->
-
-                    <div
-                        class="bottom-decoration"
-                        aria-hidden="true"
-                    >
-
+                    <div class="bottom-decoration" aria-hidden="true">
                         <span></span>
-
                         <span></span>
-
                         <span></span>
-
                     </div>
-
                 </div>
 
-
-
-                <!-- =================================================
-                     التذييل
-                ================================================== -->
-
-                <div
-                    class="canvas-footer"
-                    dir="rtl"
-                >
-
-                    <span>
-                        فضاء ثالثة ثانوي
-                    </span>
-
-                    <span class="footer-separator">
-                        •
-                    </span>
-
-                    <span>
-                        منصة طلابية
-                    </span>
-
+                <div class="canvas-footer" dir="rtl">
+                    <span>فضاء ثالثة ثانوي</span>
+                    <span class="footer-separator">•</span>
+                    <span>منصة طلابية</span>
                 </div>
-
             </div>
-
         </div>
-
-
-
-        <!-- =================================================
-             معلومات المعاينة
-        ================================================== -->
 
         <div class="preview-footer">
-
-
             <div class="preview-status">
-
                 <span class="status-indicator"></span>
-
                 المعاينة محدثة تلقائيًا
-
             </div>
-
-
-            <div class="preview-ratio">
-                نسبة التصميم 17 : 10
-            </div>
-
+            <div class="preview-ratio">نسبة التصميم 17 : 10</div>
         </div>
-
     </section>
-
 </main>
 
-
-
-<!-- =====================================================
-     نافذة المساعدة
-====================================================== -->
-
-<div
-    class="modal"
-    id="helpModal"
-    aria-hidden="true"
->
-
-
-    <div
-        class="modal-overlay"
-        id="modalOverlay"
-    ></div>
-
-
+<!-- نافذة المساعدة -->
+<div class="modal" id="helpModal" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
     <div class="modal-content">
-
-
-        <button
-            type="button"
-            class="modal-close"
-            id="closeModal"
-            aria-label="إغلاق"
-        >
-            ×
-        </button>
-
-
-        <span class="modal-icon">
-            ✦
-        </span>
-
-
-        <h2>
-            مولد التصاميم التعليمية
-        </h2>
-
-
-        <p>
-            اختر المادة، ثم أدخل الباب وعنوان الدرس.
-            ستتحدث المعاينة تلقائيًا.
-        </p>
-
-
-        <p>
-            التصميم النهائي يُصدّر بصيغة PNG
-            وبمقاس 8500 × 5000 بكسل.
-        </p>
-
+        <button type="button" class="modal-close" id="closeModal" aria-label="إغلاق">×</button>
+        <span class="modal-icon">✦</span>
+        <h2>مولد التصاميم التعليمية</h2>
+        <p>اختر المادة، ثم أدخل الباب وعنوان الدرس. ستتحدث المعاينة تلقائيًا.</p>
+        <p>التصميم النهائي يُصدّر بصيغة PNG وبمقاس 8500 × 5000 بكسل.</p>
     </div>
-
 </div>
 
-
-
-<!-- =====================================================
-     JavaScript
-====================================================== -->
-
 <script src="app.js"></script>
-
-
 </body>
-            </html>
+</html>
