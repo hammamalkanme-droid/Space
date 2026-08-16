@@ -4,37 +4,177 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <meta name="theme-color" content="#f7f6f2">
+    <meta
+        name="theme-color"
+        content="#f7f6f2"
+    >
 
-    <meta name="description"
-          content="مولد التصاميم التعليمية — فضاء">
+    <meta
+        name="description"
+        content="مولد التصاميم التعليمية — فضاء"
+    >
 
     <title>فضاء | مولد التصاميم التعليمية</title>
 
-    <!-- الخط -->
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
 
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
+    <!-- =====================================================
+         الخط العربي
+    ====================================================== -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="stylesheet"
-          href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=block"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         مكتبة التصدير
+         تحميلها قبل app.js حتى لا يبدأ التصدير قبل جاهزيتها
+    ====================================================== -->
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+
+    <!-- =====================================================
+         إعدادات ثابتة للتصميم والتصدير
+         هذه القواعد تمنع مشاكل اتجاه النص العربي
+    ====================================================== -->
+
+    <style>
+
+        /*
+         * لا تسمح للمتصفح بإعادة تشكيل النص
+         * بطريقة مختلفة داخل نسخة التصدير.
+         */
+
+        #designCanvas,
+        #designCanvas * {
+            box-sizing: border-box;
+        }
+
+
+        /*
+         * التصميم نفسه RTL.
+         */
+
+        #designCanvas {
+            direction: rtl;
+            unicode-bidi: isolate;
+        }
+
+
+        /*
+         * النصوص العربية الرئيسية.
+         */
+
+        #previewSubject,
+        #previewUnit,
+        #previewTitle,
+        .canvas-footer {
+            direction: rtl;
+            unicode-bidi: plaintext;
+            text-align: center;
+            writing-mode: horizontal-tb;
+        }
+
+
+        /*
+         * منع أي سلوك غريب من letter-spacing
+         * مع الحروف العربية.
+         */
+
+        #previewTitle {
+            letter-spacing: 0 !important;
+            word-spacing: normal;
+            text-rendering: geometricPrecision;
+        }
+
+
+        /*
+         * الصور يجب أن تكون صورًا فقط.
+         * لا fallback ولا نص بديل ظاهر.
+         */
+
+        .canvas-logo {
+            font-size: 0;
+            line-height: 0;
+        }
+
+
+        .canvas-logo img {
+            display: block !important;
+            visibility: visible;
+            opacity: 1;
+            object-fit: contain;
+        }
+
+
+        /*
+         * إخفاء أي fallback لو كان موجودًا
+         * لأي سبب في ملف CSS قديم.
+         */
+
+        .canvas-logo .logo-fallback {
+            display: none !important;
+            visibility: hidden !important;
+        }
+
+
+        /*
+         * منع تحديد النص أثناء التصدير والمعاينة.
+         */
+
+        #designCanvas,
+        #designCanvas * {
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+
+        /*
+         * ثبات حجم التصميم الحقيقي.
+         */
+
+        #designCanvas {
+            width: 1700px !important;
+            height: 1000px !important;
+            min-width: 1700px !important;
+            min-height: 1000px !important;
+            max-width: none !important;
+            max-height: none !important;
+        }
+
+    </style>
+
 </head>
 
 
 <body>
 
+
 <!-- =====================================================
      رأس التطبيق
-===================================================== -->
+====================================================== -->
 
 <header class="app-header">
 
@@ -45,8 +185,15 @@
         </div>
 
         <div class="brand-info">
-            <h1>مولد التصاميم</h1>
-            <span>فضاء التعليمية</span>
+
+            <h1>
+                مولد التصاميم
+            </h1>
+
+            <span>
+                فضاء التعليمية
+            </span>
+
         </div>
 
     </div>
@@ -58,20 +205,18 @@
             type="button"
             class="icon-button"
             id="resetBtn"
-            title="إعادة ضبط">
-
+            title="إعادة ضبط"
+        >
             ↻
-
         </button>
 
 
         <button
             type="button"
             class="help-button"
-            id="helpBtn">
-
+            id="helpBtn"
+        >
             ؟
-
         </button>
 
     </div>
@@ -79,9 +224,10 @@
 </header>
 
 
+
 <!-- =====================================================
      التطبيق
-===================================================== -->
+====================================================== -->
 
 <main class="app-container">
 
@@ -91,6 +237,7 @@
     ================================================== -->
 
     <aside class="control-panel">
+
 
         <div class="panel-heading">
 
@@ -109,7 +256,10 @@
         </div>
 
 
-        <!-- نوع التصميم -->
+
+        <!-- =================================================
+             نوع التصميم
+        ================================================== -->
 
         <section class="control-section">
 
@@ -123,13 +273,15 @@
                 <button
                     type="button"
                     class="template-option active"
-                    data-template="lesson">
+                    data-template="lesson"
+                >
 
                     <span class="template-icon">
                         ▣
                     </span>
 
                     <span>
+
                         <strong>
                             تصميم درس
                         </strong>
@@ -137,21 +289,25 @@
                         <small>
                             عنوان درس جديد
                         </small>
+
                     </span>
 
                 </button>
 
 
+
                 <button
                     type="button"
                     class="template-option"
-                    data-template="unit">
+                    data-template="unit"
+                >
 
                     <span class="template-icon">
                         ▤
                     </span>
 
                     <span>
+
                         <strong>
                             نهاية باب
                         </strong>
@@ -159,6 +315,7 @@
                         <small>
                             ملخص شامل للباب
                         </small>
+
                     </span>
 
                 </button>
@@ -168,22 +325,25 @@
         </section>
 
 
-        <!-- المادة -->
+
+        <!-- =================================================
+             المادة
+        ================================================== -->
 
         <section class="control-section">
 
             <label
                 for="subject"
-                class="section-title">
-
+                class="section-title"
+            >
                 المادة
-
             </label>
 
 
             <select
                 id="subject"
-                class="form-select">
+                class="form-select"
+            >
 
                 <option value="islamic">
                     التربية الإسلامية / القرآن الكريم
@@ -238,16 +398,18 @@
         </section>
 
 
-        <!-- البيانات -->
+
+        <!-- =================================================
+             البيانات
+        ================================================== -->
 
         <section class="control-section">
 
             <label
                 for="unitName"
-                class="section-title">
-
+                class="section-title"
+            >
                 الباب / الوحدة
-
             </label>
 
 
@@ -256,15 +418,15 @@
                 id="unitName"
                 class="form-input"
                 placeholder="مثال: الوحدة الأولى"
-                autocomplete="off">
+                autocomplete="off"
+            >
 
 
             <label
                 for="lessonName"
-                class="section-title input-label">
-
+                class="section-title input-label"
+            >
                 عنوان الدرس
-
             </label>
 
 
@@ -272,12 +434,16 @@
                 id="lessonName"
                 class="form-textarea"
                 rows="3"
-                placeholder="اكتب عنوان الدرس هنا..."></textarea>
+                placeholder="اكتب عنوان الدرس هنا..."
+            ></textarea>
 
         </section>
 
 
-        <!-- النمط -->
+
+        <!-- =================================================
+             النمط
+        ================================================== -->
 
         <section class="control-section">
 
@@ -299,9 +465,12 @@
                 <button
                     type="button"
                     class="style-option active"
-                    data-style="default">
+                    data-style="default"
+                >
 
-                    <span class="style-preview style-one"></span>
+                    <span
+                        class="style-preview style-one"
+                    ></span>
 
                     <span>
                         أساسي
@@ -313,9 +482,12 @@
                 <button
                     type="button"
                     class="style-option"
-                    data-style="modern">
+                    data-style="modern"
+                >
 
-                    <span class="style-preview style-two"></span>
+                    <span
+                        class="style-preview style-two"
+                    ></span>
 
                     <span>
                         حديث
@@ -327,9 +499,12 @@
                 <button
                     type="button"
                     class="style-option"
-                    data-style="minimal">
+                    data-style="minimal"
+                >
 
-                    <span class="style-preview style-three"></span>
+                    <span
+                        class="style-preview style-three"
+                    ></span>
 
                     <span>
                         هادئ
@@ -342,7 +517,10 @@
         </section>
 
 
-        <!-- الشعارات -->
+
+        <!-- =================================================
+             الشعارات
+        ================================================== -->
 
         <section class="control-section">
 
@@ -353,15 +531,22 @@
 
             <div class="logo-status">
 
+
                 <div class="logo-item">
 
                     <div class="logo-mini">
+
                         <img
                             src="assets/logos/fadaa.png"
-                            alt="فضاء">
+                            alt="شعار فضاء"
+                            draggable="false"
+                        >
+
                     </div>
 
+
                     <div>
+
                         <strong>
                             شعار فضاء
                         </strong>
@@ -369,22 +554,31 @@
                         <small>
                             ثابت في التصميم
                         </small>
+
                     </div>
+
 
                     <span class="status-dot"></span>
 
                 </div>
 
 
+
                 <div class="logo-item">
 
                     <div class="logo-mini">
+
                         <img
                             src="assets/logos/team.png"
-                            alt="الفريق">
+                            alt="شعار الفريق"
+                            draggable="false"
+                        >
+
                     </div>
 
+
                     <div>
+
                         <strong>
                             شعار الفريق
                         </strong>
@@ -392,7 +586,9 @@
                         <small>
                             ثابت في التصميم
                         </small>
+
                     </div>
+
 
                     <span class="status-dot"></span>
 
@@ -403,7 +599,10 @@
         </section>
 
 
-        <!-- التصدير -->
+
+        <!-- =================================================
+             التصدير
+        ================================================== -->
 
         <section class="control-section export-section">
 
@@ -415,6 +614,7 @@
             <div class="export-info">
 
                 <div>
+
                     <span>
                         الصيغة
                     </span>
@@ -422,10 +622,12 @@
                     <strong>
                         PNG
                     </strong>
+
                 </div>
 
 
                 <div>
+
                     <span>
                         الجودة
                     </span>
@@ -433,10 +635,12 @@
                     <strong>
                         عالية جدًا
                     </strong>
+
                 </div>
 
 
                 <div>
+
                     <span>
                         المقاس
                     </span>
@@ -444,6 +648,7 @@
                     <strong>
                         8500 × 5000
                     </strong>
+
                 </div>
 
             </div>
@@ -452,7 +657,8 @@
             <button
                 type="button"
                 class="export-button"
-                id="exportBtn">
+                id="exportBtn"
+            >
 
                 <span>
                     ↓
@@ -467,11 +673,13 @@
     </aside>
 
 
+
     <!-- =================================================
          المعاينة
     ================================================== -->
 
     <section class="preview-area">
+
 
         <div class="preview-header">
 
@@ -495,80 +703,120 @@
         </div>
 
 
+
         <!-- =================================================
-             التصميم
+             مساحة التصميم
         ================================================== -->
 
         <div class="canvas-wrapper">
 
+
             <div
                 id="designCanvas"
-                class="design-canvas
-                       subject-islamic
-                       template-lesson">
+                class="
+                    design-canvas
+                    subject-islamic
+                    template-lesson
+                "
+                dir="rtl"
+                lang="ar"
+            >
 
 
-                <!-- زخارف -->
+                <!-- =================================================
+                     الزخارف
+                ================================================== -->
 
-                <div class="decor decor-one"></div>
+                <div
+                    class="decor decor-one"
+                    aria-hidden="true"
+                ></div>
 
-                <div class="decor decor-two"></div>
+                <div
+                    class="decor decor-two"
+                    aria-hidden="true"
+                ></div>
 
-                <div class="decor decor-three"></div>
+                <div
+                    class="decor decor-three"
+                    aria-hidden="true"
+                ></div>
+
 
 
                 <!-- =================================================
                      شعار فضاء
+                     الصورة فقط — بدون fallback
                 ================================================== -->
 
                 <div class="canvas-logo project-logo">
 
                     <img
                         src="assets/logos/fadaa.png"
-                        alt="شعار فضاء">
+                        alt=""
+                        draggable="false"
+                        decoding="sync"
+                    >
 
                 </div>
 
 
+
                 <!-- =================================================
                      شعار الفريق
+                     الصورة فقط — بدون fallback
                 ================================================== -->
 
                 <div class="canvas-logo team-logo">
 
                     <img
                         src="assets/logos/team.png"
-                        alt="شعار الفريق">
+                        alt=""
+                        draggable="false"
+                        decoding="sync"
+                    >
 
                 </div>
 
 
+
                 <!-- =================================================
-                     المحتوى
+                     المحتوى الرئيسي
                 ================================================== -->
 
                 <div class="canvas-content">
 
 
+                    <!-- المادة -->
+
                     <div
                         class="subject-badge"
-                        id="previewSubject">
-
+                        id="previewSubject"
+                        dir="rtl"
+                    >
                         التربية الإسلامية
-
                     </div>
 
+
+
+                    <!-- الوحدة -->
 
                     <div
                         class="unit-display"
-                        id="previewUnit">
-
+                        id="previewUnit"
+                        dir="rtl"
+                    >
                         الوحدة الأولى
-
                     </div>
 
 
-                    <div class="title-decoration">
+
+                    <!-- الفاصل -->
+
+                    <div
+                        class="title-decoration"
+                        aria-hidden="true"
+                    >
 
                         <span></span>
 
@@ -579,19 +827,34 @@
                     </div>
 
 
+
+                    <!-- =================================================
+                         عنوان الدرس
+                         مهم جدًا:
+                         direction + unicode-bidi
+                    ================================================== -->
+
                     <h3
                         class="lesson-title"
-                        id="previewTitle">
-
+                        id="previewTitle"
+                        dir="rtl"
+                    >
                         عنوان الدرس
-
                     </h3>
 
 
-                    <div class="bottom-decoration">
+
+                    <!-- الزخرفة السفلية -->
+
+                    <div
+                        class="bottom-decoration"
+                        aria-hidden="true"
+                    >
 
                         <span></span>
+
                         <span></span>
+
                         <span></span>
 
                     </div>
@@ -599,11 +862,15 @@
                 </div>
 
 
+
                 <!-- =================================================
                      التذييل
                 ================================================== -->
 
-                <div class="canvas-footer">
+                <div
+                    class="canvas-footer"
+                    dir="rtl"
+                >
 
                     <span>
                         فضاء ثالثة ثانوي
@@ -624,7 +891,13 @@
         </div>
 
 
+
+        <!-- =================================================
+             معلومات المعاينة
+        ================================================== -->
+
         <div class="preview-footer">
+
 
             <div class="preview-status">
 
@@ -646,30 +919,34 @@
 </main>
 
 
+
 <!-- =====================================================
-     المساعدة
-===================================================== -->
+     نافذة المساعدة
+====================================================== -->
 
 <div
     class="modal"
     id="helpModal"
-    aria-hidden="true">
+    aria-hidden="true"
+>
+
 
     <div
         class="modal-overlay"
-        id="modalOverlay">
-    </div>
+        id="modalOverlay"
+    ></div>
 
 
     <div class="modal-content">
 
+
         <button
             type="button"
             class="modal-close"
-            id="closeModal">
-
+            id="closeModal"
+            aria-label="إغلاق"
+        >
             ×
-
         </button>
 
 
@@ -699,7 +976,13 @@
 </div>
 
 
+
+<!-- =====================================================
+     JavaScript
+====================================================== -->
+
 <script src="app.js"></script>
 
+
 </body>
-</html>
+            </html>
