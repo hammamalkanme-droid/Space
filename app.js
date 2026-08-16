@@ -1,6 +1,13 @@
 /* =========================================================
-   فضاء | مولد التصاميم التعليمية
-   app.js — النسخة النهائية
+   فَضَاء | مولّد التصاميم التعليمية
+   app.js — FINAL
+========================================================= */
+
+"use strict";
+
+
+/* =========================================================
+   إعدادات عامة
 ========================================================= */
 
 const CONFIG = {
@@ -17,7 +24,7 @@ const CONFIG = {
 
 
 /* =========================================================
-   المواد
+   المواد والألوان
 ========================================================= */
 
 const SUBJECTS = {
@@ -102,31 +109,22 @@ const SUBJECTS = {
 ========================================================= */
 
 const elements = {
-
     subject: document.getElementById("subject"),
-
     unitName: document.getElementById("unitName"),
-
     lessonName: document.getElementById("lessonName"),
 
     designCanvas: document.getElementById("designCanvas"),
 
     previewSubject: document.getElementById("previewSubject"),
-
     previewUnit: document.getElementById("previewUnit"),
-
     previewTitle: document.getElementById("previewTitle"),
 
     exportBtn: document.getElementById("exportBtn"),
-
     resetBtn: document.getElementById("resetBtn"),
 
     helpBtn: document.getElementById("helpBtn"),
-
     helpModal: document.getElementById("helpModal"),
-
     closeModal: document.getElementById("closeModal"),
-
     modalOverlay: document.getElementById("modalOverlay"),
 
     templateOptions:
@@ -134,7 +132,6 @@ const elements = {
 
     styleOptions:
         document.querySelectorAll(".style-option")
-
 };
 
 
@@ -143,22 +140,16 @@ const elements = {
 ========================================================= */
 
 const state = {
-
     subject: CONFIG.defaultSubject,
-
     template: CONFIG.defaultTemplate,
-
     style: CONFIG.defaultStyle,
-
     unit: CONFIG.defaultUnit,
-
     title: CONFIG.defaultTitle
-
 };
 
 
 /* =========================================================
-   وظائف مساعدة
+   الحصول على بيانات المادة
 ========================================================= */
 
 function getSubjectData(subjectId) {
@@ -169,31 +160,24 @@ function getSubjectData(subjectId) {
 }
 
 
-function updateStateFromInputs() {
-
-    state.subject =
-        elements.subject.value;
-
-    state.unit =
-        elements.unitName.value.trim();
-
-    state.title =
-        elements.lessonName.value.trim();
-
-}
-
+/* =========================================================
+   تحديث النصوص
+========================================================= */
 
 function updatePreviewText() {
 
     const subject =
         getSubjectData(state.subject);
 
+
     elements.previewSubject.textContent =
         subject.shortName;
+
 
     elements.previewUnit.textContent =
         state.unit ||
         CONFIG.defaultUnit;
+
 
     elements.previewTitle.textContent =
         state.title ||
@@ -201,6 +185,30 @@ function updatePreviewText() {
 
 }
 
+
+/* =========================================================
+   تحديث حالة المدخلات
+========================================================= */
+
+function updateStateFromInputs() {
+
+    state.subject =
+        elements.subject.value;
+
+
+    state.unit =
+        elements.unitName.value.trim();
+
+
+    state.title =
+        elements.lessonName.value.trim();
+
+}
+
+
+/* =========================================================
+   إزالة ألوان المواد السابقة
+========================================================= */
 
 function removeSubjectClasses() {
 
@@ -218,7 +226,7 @@ function removeSubjectClasses() {
 
 
 /* =========================================================
-   تحديث لون المادة
+   تحديث ثيم المادة
 ========================================================= */
 
 function updateSubjectTheme() {
@@ -226,7 +234,9 @@ function updateSubjectTheme() {
     const subject =
         getSubjectData(state.subject);
 
+
     removeSubjectClasses();
+
 
     elements.designCanvas.classList.add(
         subject.className
@@ -236,7 +246,7 @@ function updateSubjectTheme() {
 
 
 /* =========================================================
-   تحديث نوع التصميم
+   تحديث نوع القالب
 ========================================================= */
 
 function updateTemplate() {
@@ -245,6 +255,7 @@ function updateTemplate() {
         "template-lesson",
         "template-unit"
     );
+
 
     elements.designCanvas.classList.add(
         `template-${state.template}`
@@ -312,7 +323,7 @@ function updateStyle() {
 
 
 /* =========================================================
-   تحديث التصميم
+   تحديث التصميم بالكامل
 ========================================================= */
 
 function updateDesign() {
@@ -331,7 +342,7 @@ function updateDesign() {
 
 
 /* =========================================================
-   المادة
+   تغيير المادة
 ========================================================= */
 
 elements.subject.addEventListener(
@@ -348,7 +359,7 @@ elements.subject.addEventListener(
 
 
 /* =========================================================
-   الباب / الوحدة
+   تغيير الباب / الوحدة
 ========================================================= */
 
 elements.unitName.addEventListener(
@@ -365,7 +376,7 @@ elements.unitName.addEventListener(
 
 
 /* =========================================================
-   عنوان الدرس
+   تغيير عنوان الدرس
 ========================================================= */
 
 elements.lessonName.addEventListener(
@@ -382,7 +393,7 @@ elements.lessonName.addEventListener(
 
 
 /* =========================================================
-   نوع التصميم
+   اختيار قالب
 ========================================================= */
 
 elements.templateOptions.forEach(
@@ -405,7 +416,7 @@ elements.templateOptions.forEach(
 
 
 /* =========================================================
-   النمط
+   اختيار النمط
 ========================================================= */
 
 elements.styleOptions.forEach(
@@ -471,6 +482,108 @@ elements.resetBtn.addEventListener(
 
 
 /* =========================================================
+   إصلاح الشعارات
+========================================================= */
+
+function setupLogos() {
+
+    const logos =
+        elements.designCanvas.querySelectorAll(
+            ".canvas-logo"
+        );
+
+
+    logos.forEach(
+        logo => {
+
+            const image =
+                logo.querySelector("img");
+
+            const fallback =
+                logo.querySelector(
+                    ".logo-fallback"
+                );
+
+
+            if (!image) {
+
+                if (fallback) {
+                    fallback.style.display = "flex";
+                }
+
+                return;
+
+            }
+
+
+            /*
+             * مهم:
+             * إذا كانت الصورة موجودة، نخفي البديل.
+             */
+
+            if (
+                image.complete &&
+                image.naturalWidth > 0
+            ) {
+
+                image.style.display =
+                    "block";
+
+                if (fallback) {
+                    fallback.style.display =
+                        "none";
+                }
+
+            }
+
+
+            /*
+             * عند نجاح تحميل الصورة.
+             */
+
+            image.addEventListener(
+                "load",
+                () => {
+
+                    image.style.display =
+                        "block";
+
+                    if (fallback) {
+                        fallback.style.display =
+                            "none";
+                    }
+
+                }
+            );
+
+
+            /*
+             * فقط إذا فشلت الصورة،
+             * نظهر البديل.
+             */
+
+            image.addEventListener(
+                "error",
+                () => {
+
+                    image.style.display =
+                        "none";
+
+                    if (fallback) {
+                        fallback.style.display =
+                            "flex";
+                    }
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
    نافذة المساعدة
 ========================================================= */
 
@@ -480,10 +593,12 @@ function openHelp() {
         "active"
     );
 
+
     elements.helpModal.setAttribute(
         "aria-hidden",
         "false"
     );
+
 
     document.body.style.overflow =
         "hidden";
@@ -497,10 +612,12 @@ function closeHelp() {
         "active"
     );
 
+
     elements.helpModal.setAttribute(
         "aria-hidden",
         "true"
     );
+
 
     document.body.style.overflow =
         "";
@@ -546,7 +663,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   تحميل html2canvas
+   تحميل مكتبة html2canvas
 ========================================================= */
 
 function loadHtml2Canvas() {
@@ -569,6 +686,7 @@ function loadHtml2Canvas() {
                 document.createElement(
                     "script"
                 );
+
 
             script.src =
                 "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
@@ -624,7 +742,9 @@ function waitForImages(container) {
 
     const images =
         Array.from(
-            container.querySelectorAll("img")
+            container.querySelectorAll(
+                "img"
+            )
         );
 
 
@@ -675,7 +795,7 @@ function waitForImages(container) {
 
 
 /* =========================================================
-   انتظار الخط
+   انتظار الخطوط
 ========================================================= */
 
 async function waitForFonts() {
@@ -692,7 +812,7 @@ async function waitForFonts() {
         } catch (error) {
 
             console.warn(
-                "تعذر انتظار الخطوط:",
+                "تعذر انتظار الخطوط.",
                 error
             );
 
@@ -704,7 +824,32 @@ async function waitForFonts() {
 
 
 /* =========================================================
-   إنشاء نسخة التصدير
+   انتظار اكتمال الرسم
+========================================================= */
+
+function nextFrame() {
+
+    return new Promise(
+        resolve => {
+
+            requestAnimationFrame(
+                () => {
+
+                    requestAnimationFrame(
+                        resolve
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   إنشاء Canvas عالي الدقة
 ========================================================= */
 
 async function createExportCanvas() {
@@ -713,25 +858,13 @@ async function createExportCanvas() {
         await loadHtml2Canvas();
 
 
-    /*
-       مهم جدًا:
-
-       لا نقوم بتغيير التصميم إلى 8500px هنا.
-
-       نأخذ التصميم بنفس حجمه الحقيقي في المعاينة،
-       ثم نرفع دقة الالتقاط بواسطة scale.
-
-       بهذه الطريقة:
-       1. أماكن العناصر تبقى صحيحة.
-       2. أحجام الخطوط تبقى صحيحة.
-       3. الشعارات تبقى صحيحة.
-       4. النتيجة النهائية تصبح 8500 × 5000.
-    */
-
-
     const source =
         elements.designCanvas;
 
+
+    /*
+     * حجم التصميم الفعلي في المعاينة.
+     */
 
     const rect =
         source.getBoundingClientRect();
@@ -746,20 +879,32 @@ async function createExportCanvas() {
 
 
     if (
-        sourceWidth <= 0 ||
-        sourceHeight <= 0
+        sourceWidth < 10 ||
+        sourceHeight < 10
     ) {
 
         throw new Error(
-            "تعذر تحديد حجم التصميم."
+            "تعذر قراءة حجم التصميم."
         );
 
     }
 
 
     /*
-       النسبة المطلوبة للتصدير.
-    */
+     * التأكد من تحميل كل شيء.
+     */
+
+    await waitForFonts();
+
+    await waitForImages(source);
+
+    await nextFrame();
+
+
+    /*
+     * نحسب التكبير المطلوب للوصول
+     * إلى 8500px عرض.
+     */
 
     const scale =
         CONFIG.exportWidth /
@@ -767,63 +912,19 @@ async function createExportCanvas() {
 
 
     /*
-       نتأكد أن الناتج يطابق
-       النسبة المطلوبة.
-    */
+     * نلتقط التصميم نفسه،
+     * وليس نسخة مضروبة بأبعاد خاطئة.
+     */
 
-    const expectedHeight =
-        Math.round(
-            sourceHeight * scale
-        );
-
-
-    /*
-       لو اختلفت بضعة بكسلات بسبب
-       التقريب أو الشاشة، نستخدم
-       النسبة الأصلية للتصميم.
-    */
-
-    console.log(
-        "Export:",
-        {
-            sourceWidth,
-            sourceHeight,
-            scale,
-            expectedWidth:
-                CONFIG.exportWidth,
-            expectedHeight
-        }
-    );
-
-
-    /*
-       ننتظر الخطوط والصور.
-    */
-
-    await waitForFonts();
-
-    await waitForImages(
-        source
-    );
-
-
-    /*
-       نلتقط التصميم نفسه مباشرة.
-       لا Clone بحجم 8500.
-    */
-
-    const canvas =
+    const captured =
         await html2canvas(
             source,
             {
-
                 scale: scale,
 
-                width:
-                    sourceWidth,
+                width: sourceWidth,
 
-                height:
-                    sourceHeight,
+                height: sourceHeight,
 
                 useCORS: true,
 
@@ -831,79 +932,89 @@ async function createExportCanvas() {
 
                 backgroundColor: null,
 
-                logging: false,
+                imageTimeout: 30000,
 
-                imageTimeout: 20000,
+                logging: false,
 
                 removeContainer: true,
 
                 foreignObjectRendering: false
-
             }
         );
 
 
     /*
-       html2canvas سيعطي الحجم الناتج
-       بناءً على scale.
+     * Canvas نهائي مضمون
+     * 8500 × 5000 بالضبط.
+     */
 
-       للتأكد من عدم وجود فرق بسبب
-       التقريب، نعيد رسم الصورة
-       في Canvas نهائي بالحجم المطلوب.
-    */
-
-    if (
-        canvas.width !==
-            CONFIG.exportWidth ||
-        canvas.height !==
-            CONFIG.exportHeight
-    ) {
-
-        const finalCanvas =
-            document.createElement(
-                "canvas"
-            );
-
-
-        finalCanvas.width =
-            CONFIG.exportWidth;
-
-        finalCanvas.height =
-            CONFIG.exportHeight;
-
-
-        const context =
-            finalCanvas.getContext(
-                "2d"
-            );
-
-
-        context.imageSmoothingEnabled =
-            true;
-
-        context.imageSmoothingQuality =
-            "high";
-
-
-        context.drawImage(
-            canvas,
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-            0,
-            0,
-            CONFIG.exportWidth,
-            CONFIG.exportHeight
+    const finalCanvas =
+        document.createElement(
+            "canvas"
         );
 
 
-        return finalCanvas;
+    finalCanvas.width =
+        CONFIG.exportWidth;
 
-    }
+
+    finalCanvas.height =
+        CONFIG.exportHeight;
 
 
-    return canvas;
+    const context =
+        finalCanvas.getContext(
+            "2d"
+        );
+
+
+    context.imageSmoothingEnabled =
+        true;
+
+
+    context.imageSmoothingQuality =
+        "high";
+
+
+    /*
+     * نملأ الخلفية أولًا
+     * لمنع أي شفافية غير مرغوبة.
+     */
+
+    context.fillStyle =
+        getComputedStyle(
+            source
+        ).backgroundColor ||
+        "#ffffff";
+
+
+    context.fillRect(
+        0,
+        0,
+        CONFIG.exportWidth,
+        CONFIG.exportHeight
+    );
+
+
+    /*
+     * نرسم الصورة كاملة على
+     * الحجم النهائي.
+     */
+
+    context.drawImage(
+        captured,
+        0,
+        0,
+        captured.width,
+        captured.height,
+        0,
+        0,
+        CONFIG.exportWidth,
+        CONFIG.exportHeight
+    );
+
+
+    return finalCanvas;
 
 }
 
@@ -929,7 +1040,7 @@ function sanitizeFilename(text) {
 
 
 /* =========================================================
-   اسم ملف التصميم
+   اسم ملف PNG
 ========================================================= */
 
 function generateFilename() {
@@ -945,33 +1056,30 @@ function generateFilename() {
         CONFIG.defaultTitle;
 
 
-    const cleanSubject =
+    const subjectName =
         sanitizeFilename(
             subject.shortName
         );
 
 
-    const cleanTitle =
+    const titleName =
         sanitizeFilename(
             title
         );
 
 
     return (
-        `فضاء-${cleanSubject}-${cleanTitle}.png`
+        `فضاء-${subjectName}-${titleName}.png`
     );
 
 }
 
 
 /* =========================================================
-   تصدير PNG
+   تحويل Canvas إلى PNG
 ========================================================= */
 
-function downloadCanvasAsPNG(
-    canvas,
-    filename
-) {
+function canvasToBlob(canvas) {
 
     return new Promise(
         (resolve, reject) => {
@@ -992,48 +1100,7 @@ function downloadCanvasAsPNG(
                     }
 
 
-                    const url =
-                        URL.createObjectURL(
-                            blob
-                        );
-
-
-                    const link =
-                        document.createElement(
-                            "a"
-                        );
-
-
-                    link.href =
-                        url;
-
-                    link.download =
-                        filename;
-
-
-                    document.body.appendChild(
-                        link
-                    );
-
-
-                    link.click();
-
-
-                    link.remove();
-
-
-                    setTimeout(
-                        () => {
-
-                            URL.revokeObjectURL(
-                                url
-                            );
-
-                            resolve();
-
-                        },
-                        1500
-                    );
+                    resolve(blob);
 
                 },
 
@@ -1041,6 +1108,70 @@ function downloadCanvasAsPNG(
             );
 
         }
+    );
+
+}
+
+
+/* =========================================================
+   تنزيل الصورة
+========================================================= */
+
+async function downloadCanvasAsPNG(
+    canvas,
+    filename
+) {
+
+    const blob =
+        await canvasToBlob(
+            canvas
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        filename;
+
+
+    link.style.display =
+        "none";
+
+
+    document.body.appendChild(
+        link
+    );
+
+
+    link.click();
+
+
+    link.remove();
+
+
+    setTimeout(
+        () => {
+
+            URL.revokeObjectURL(
+                url
+            );
+
+        },
+        2000
     );
 
 }
@@ -1091,58 +1222,43 @@ function setExportLoading(
 
 
 /* =========================================================
-   تنفيذ التصدير
+   تصدير التصميم
 ========================================================= */
 
 async function exportDesign() {
 
+    if (
+        elements.exportBtn.disabled
+    ) {
+
+        return;
+
+    }
+
+
     try {
 
-        setExportLoading(
-            true
-        );
+        setExportLoading(true);
 
 
         /*
-           ننتظر دورة رسم كاملة.
-        */
+         * تأكيد أن الشعارات في حالتها
+         * الصحيحة قبل التصدير.
+         */
 
-        await new Promise(
-            resolve => {
-
-                requestAnimationFrame(
-                    () => {
-
-                        requestAnimationFrame(
-                            resolve
-                        );
-
-                    }
-                );
-
-            }
-        );
+        setupLogos();
 
 
-        /*
-           إنشاء الصورة عالية الدقة.
-        */
+        await nextFrame();
+
 
         const canvas =
             await createExportCanvas();
 
 
-        /*
-           اسم الملف.
-        */
-
         const filename =
             generateFilename();
 
-
-        /*
-           تنزيل PNG.
-        */
 
         await downloadCanvasAsPNG(
             canvas,
@@ -1159,16 +1275,14 @@ async function exportDesign() {
 
 
         alert(
-            "حدث خطأ أثناء تصدير التصميم.\n\n" +
-            "إذا كنت تستخدم هاتفًا، جرّب إغلاق التطبيقات الأخرى ثم أعد التصدير."
+            "تعذر تصدير التصميم.\n\n" +
+            "حاول مرة أخرى بعد اكتمال تحميل الصفحة."
         );
 
 
     } finally {
 
-        setExportLoading(
-            false
-        );
+        setExportLoading(false);
 
     }
 
@@ -1186,7 +1300,6 @@ elements.exportBtn.addEventListener(
 
 
 /* =========================================================
-   اختصار لوحة المفاتيح
    Ctrl + S
 ========================================================= */
 
@@ -1211,28 +1324,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   منع Enter غير المرغوب
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Enter" &&
-            event.target.tagName === "INPUT"
-        ) {
-
-            event.preventDefault();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   تشغيل التطبيق
+   تهيئة التطبيق
 ========================================================= */
 
 function initializeApp() {
@@ -1251,11 +1343,18 @@ function initializeApp() {
 
     updateDesign();
 
+
+    /*
+     * إصلاح الشعارات مباشرة.
+     */
+
+    setupLogos();
+
 }
 
 
 /* =========================================================
-   البداية
+   بدء التطبيق
 ========================================================= */
 
 if (
@@ -1272,4 +1371,4 @@ if (
 
     initializeApp();
 
-   }
+               }
