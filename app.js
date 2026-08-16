@@ -7,22 +7,28 @@
 
 
 /* =========================================================
-   CONFIG
+   إعدادات
 ========================================================= */
 
 const CONFIG = {
+
     canvasWidth: 1700,
+
     canvasHeight: 1000,
 
     exportWidth: 8500,
+
     exportHeight: 5000,
 
-    exportScale: 5
+    exportScale: 5,
+
+    fontFamily: "Cairo"
+
 };
 
 
 /* =========================================================
-   SUBJECTS
+   المواد
 ========================================================= */
 
 const SUBJECTS = {
@@ -103,7 +109,7 @@ const SUBJECTS = {
 
 
 /* =========================================================
-   ELEMENTS
+   العناصر
 ========================================================= */
 
 const canvas =
@@ -141,20 +147,26 @@ const styleButtons =
 
 
 /* =========================================================
-   STATE
+   الحالة
 ========================================================= */
 
 const state = {
+
     subject: "islamic",
+
     template: "lesson",
+
     style: "default",
+
     unit: "الوحدة الأولى",
+
     title: "عنوان الدرس"
+
 };
 
 
 /* =========================================================
-   TEXT
+   تحديث النص
 ========================================================= */
 
 function updateText() {
@@ -167,35 +179,43 @@ function updateText() {
         subject.short;
 
     previewUnit.textContent =
-        state.unit ||
-        "الوحدة الأولى";
+        state.unit || "الوحدة الأولى";
 
     previewTitle.textContent =
-        state.title ||
-        "عنوان الدرس";
+        state.title || "عنوان الدرس";
+
 }
 
 
 /* =========================================================
-   SUBJECT
+   تحديث المادة
 ========================================================= */
 
 function updateSubject() {
 
-    Object.values(SUBJECTS).forEach(subject => {
-        canvas.classList.remove(subject.className);
-    });
+    Object.values(SUBJECTS).forEach(
+        subject => {
+
+            canvas.classList.remove(
+                subject.className
+            );
+
+        }
+    );
 
     const data =
         SUBJECTS[state.subject] ||
         SUBJECTS.islamic;
 
-    canvas.classList.add(data.className);
+    canvas.classList.add(
+        data.className
+    );
+
 }
 
 
 /* =========================================================
-   TEMPLATE
+   تحديث القالب
 ========================================================= */
 
 function updateTemplate() {
@@ -209,17 +229,23 @@ function updateTemplate() {
         `template-${state.template}`
     );
 
-    templateButtons.forEach(button => {
-        button.classList.toggle(
-            "active",
-            button.dataset.template === state.template
-        );
-    });
+    templateButtons.forEach(
+        button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.template ===
+                state.template
+            );
+
+        }
+    );
+
 }
 
 
 /* =========================================================
-   STYLE
+   تحديث النمط
 ========================================================= */
 
 function updateStyle() {
@@ -230,24 +256,38 @@ function updateStyle() {
     );
 
     if (state.style === "modern") {
-        canvas.classList.add("style-modern");
+
+        canvas.classList.add(
+            "style-modern"
+        );
+
     }
 
     if (state.style === "minimal") {
-        canvas.classList.add("style-minimal");
+
+        canvas.classList.add(
+            "style-minimal"
+        );
+
     }
 
-    styleButtons.forEach(button => {
-        button.classList.toggle(
-            "active",
-            button.dataset.style === state.style
-        );
-    });
+    styleButtons.forEach(
+        button => {
+
+            button.classList.toggle(
+                "active",
+                button.dataset.style ===
+                state.style
+            );
+
+        }
+    );
+
 }
 
 
 /* =========================================================
-   UPDATE
+   تحديث التصميم
 ========================================================= */
 
 function updateDesign() {
@@ -262,14 +302,18 @@ function updateDesign() {
         titleInput.value.trim();
 
     updateText();
+
     updateSubject();
+
     updateTemplate();
+
     updateStyle();
+
 }
 
 
 /* =========================================================
-   EVENTS
+   الأحداث
 ========================================================= */
 
 subjectInput.addEventListener(
@@ -277,10 +321,12 @@ subjectInput.addEventListener(
     updateDesign
 );
 
+
 unitInput.addEventListener(
     "input",
     updateDesign
 );
+
 
 titleInput.addEventListener(
     "input",
@@ -288,40 +334,46 @@ titleInput.addEventListener(
 );
 
 
-templateButtons.forEach(button => {
+templateButtons.forEach(
+    button => {
 
-    button.addEventListener(
-        "click",
-        () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            state.template =
-                button.dataset.template;
+                state.template =
+                    button.dataset.template;
 
-            updateTemplate();
-        }
-    );
+                updateTemplate();
 
-});
+            }
+        );
+
+    }
+);
 
 
-styleButtons.forEach(button => {
+styleButtons.forEach(
+    button => {
 
-    button.addEventListener(
-        "click",
-        () => {
+        button.addEventListener(
+            "click",
+            () => {
 
-            state.style =
-                button.dataset.style;
+                state.style =
+                    button.dataset.style;
 
-            updateStyle();
-        }
-    );
+                updateStyle();
 
-});
+            }
+        );
+
+    }
+);
 
 
 /* =========================================================
-   RESET
+   إعادة الضبط
 ========================================================= */
 
 resetButton.addEventListener(
@@ -329,9 +381,13 @@ resetButton.addEventListener(
     () => {
 
         state.subject = "islamic";
+
         state.template = "lesson";
+
         state.style = "default";
+
         state.unit = "الوحدة الأولى";
+
         state.title = "عنوان الدرس";
 
         subjectInput.value =
@@ -344,117 +400,13 @@ resetButton.addEventListener(
             state.title;
 
         updateDesign();
+
     }
 );
 
 
 /* =========================================================
-   IMAGE WAIT
-========================================================= */
-
-function waitForImages(root = document) {
-
-    const images =
-        root.querySelectorAll("img");
-
-    return Promise.all(
-
-        Array.from(images).map(image => {
-
-            if (
-                image.complete &&
-                image.naturalWidth > 0
-            ) {
-                return Promise.resolve();
-            }
-
-            return new Promise(resolve => {
-
-                const done = () => {
-                    resolve();
-                };
-
-                image.addEventListener(
-                    "load",
-                    done,
-                    { once: true }
-                );
-
-                image.addEventListener(
-                    "error",
-                    done,
-                    { once: true }
-                );
-
-            });
-
-        })
-
-    );
-}
-
-
-/* =========================================================
-   FONT WAIT
-========================================================= */
-
-async function waitForFonts() {
-
-    if (!document.fonts) {
-        return;
-    }
-
-    try {
-
-        await document.fonts.ready;
-
-        await Promise.all([
-            document.fonts.load(
-                '400 40px "Cairo"'
-            ),
-            document.fonts.load(
-                '700 60px "Cairo"'
-            ),
-            document.fonts.load(
-                '900 100px "Cairo"'
-            )
-        ]);
-
-    } catch (error) {
-
-        console.warn(
-            "Font loading warning:",
-            error
-        );
-
-    }
-}
-
-
-/* =========================================================
-   FRAME WAIT
-========================================================= */
-
-function waitFrame() {
-
-    return new Promise(resolve => {
-
-        requestAnimationFrame(() => {
-
-            requestAnimationFrame(() => {
-
-                resolve();
-
-            });
-
-        });
-
-    });
-}
-
-
-/* =========================================================
-   LOAD HTML2CANVAS
+   تحميل html2canvas
 ========================================================= */
 
 function loadHtml2Canvas() {
@@ -463,11 +415,68 @@ function loadHtml2Canvas() {
         (resolve, reject) => {
 
             if (
-                typeof html2canvas === "function"
+                typeof window.html2canvas ===
+                "function"
             ) {
 
-                resolve(html2canvas);
+                resolve(
+                    window.html2canvas
+                );
+
                 return;
+
+            }
+
+            const existing =
+                document.querySelector(
+                    'script[data-html2canvas="true"]'
+                );
+
+            if (existing) {
+
+                existing.addEventListener(
+                    "load",
+                    () => {
+
+                        if (
+                            typeof window.html2canvas ===
+                            "function"
+                        ) {
+
+                            resolve(
+                                window.html2canvas
+                            );
+
+                        } else {
+
+                            reject(
+                                new Error(
+                                    "html2canvas غير متوفر."
+                                )
+                            );
+
+                        }
+
+                    },
+                    { once: true }
+                );
+
+                existing.addEventListener(
+                    "error",
+                    () => {
+
+                        reject(
+                            new Error(
+                                "فشل تحميل مكتبة التصدير."
+                            )
+                        );
+
+                    },
+                    { once: true }
+                );
+
+                return;
+
             }
 
             const script =
@@ -476,13 +485,21 @@ function loadHtml2Canvas() {
             script.src =
                 "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
 
+            script.async = true;
+
+            script.dataset.html2canvas =
+                "true";
+
             script.onload = () => {
 
                 if (
-                    typeof html2canvas === "function"
+                    typeof window.html2canvas ===
+                    "function"
                 ) {
 
-                    resolve(html2canvas);
+                    resolve(
+                        window.html2canvas
+                    );
 
                 } else {
 
@@ -506,135 +523,285 @@ function loadHtml2Canvas() {
 
             };
 
-            document.head.appendChild(script);
+            document.head.appendChild(
+                script
+            );
 
         }
     );
+
 }
 
 
 /* =========================================================
-   EXPORT CLONE
+   انتظار الصور
 ========================================================= */
 
-function createExportClone() {
+async function waitForImages(
+    root
+) {
 
-    const clone =
-        canvas.cloneNode(true);
+    const images =
+        root.querySelectorAll("img");
 
-    /*
-       النسخة تستخدم نفس المقاس الحقيقي.
-       لا يتم تصغيرها أو تكبيرها عبر CSS.
-    */
+    await Promise.all(
 
-    clone.removeAttribute("id");
+        Array.from(images).map(
+            image => {
 
-    clone.style.position =
-        "fixed";
+                /*
+                 * منع ظهور alt النصي إذا حدث خطأ
+                 * أثناء التصدير.
+                 */
 
-    clone.style.left =
-        "0px";
+                image.setAttribute(
+                    "alt",
+                    ""
+                );
 
-    clone.style.top =
-        "0px";
+                image.removeAttribute(
+                    "title"
+                );
 
-    clone.style.width =
-        `${CONFIG.canvasWidth}px`;
+                image.decoding =
+                    "sync";
 
-    clone.style.height =
-        `${CONFIG.canvasHeight}px`;
+                image.loading =
+                    "eager";
 
-    clone.style.minWidth =
-        `${CONFIG.canvasWidth}px`;
 
-    clone.style.minHeight =
-        `${CONFIG.canvasHeight}px`;
+                if (
+                    image.complete
+                ) {
 
-    clone.style.maxWidth =
-        `${CONFIG.canvasWidth}px`;
+                    return Promise.resolve();
 
-    clone.style.maxHeight =
-        `${CONFIG.canvasHeight}px`;
+                }
 
-    clone.style.margin =
-        "0";
 
-    clone.style.transform =
-        "none";
+                return new Promise(
+                    resolve => {
 
-    clone.style.zoom =
-        "1";
+                        const done =
+                            () => resolve();
 
-    clone.style.borderRadius =
-        "0";
+                        image.addEventListener(
+                            "load",
+                            done,
+                            { once: true }
+                        );
 
-    clone.style.boxShadow =
-        "none";
+                        image.addEventListener(
+                            "error",
+                            done,
+                            { once: true }
+                        );
 
-    clone.style.overflow =
-        "hidden";
+                    }
+                );
 
-    clone.style.direction =
-        "rtl";
+            }
+        )
 
-    clone.style.visibility =
-        "visible";
+    );
 
-    clone.style.opacity =
-        "1";
-
-    /*
-       مهم جدًا:
-       ممنوع fallback داخل الصورة النهائية.
-    */
-
-    clone.querySelectorAll(
-        ".logo-fallback"
-    ).forEach(element => {
-        element.remove();
-    });
-
-    /*
-       أي عنصر fallback موجود لأي سبب آخر
-       يتم إخفاؤه بالقوة.
-    */
-
-    clone.querySelectorAll(
-        ".logo-fallback"
-    ).forEach(element => {
-        element.style.display =
-            "none";
-    });
-
-    /*
-       إجبار النص العربي على استخدام نفس
-       اتجاه الصفحة.
-    */
-
-    clone.querySelectorAll(
-        "*"
-    ).forEach(element => {
-
-        element.style.direction =
-            "inherit";
-
-    });
-
-    /*
-       وضع النسخة في طبقة مستقلة.
-    */
-
-    clone.style.zIndex =
-        "-9999";
-
-    document.body.appendChild(clone);
-
-    return clone;
 }
 
 
 /* =========================================================
-   CREATE PNG
+   حماية الصور من broken image
+========================================================= */
+
+function prepareImagesForExport() {
+
+    const images =
+        canvas.querySelectorAll("img");
+
+    images.forEach(
+        image => {
+
+            image.setAttribute(
+                "alt",
+                ""
+            );
+
+            image.removeAttribute(
+                "title"
+            );
+
+            image.style.display =
+                "block";
+
+            image.style.visibility =
+                "visible";
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   انتظار الخطوط
+========================================================= */
+
+async function waitForFonts() {
+
+    if (!document.fonts) {
+
+        return;
+
+    }
+
+    try {
+
+        await document.fonts.load(
+            '400 40px "Cairo"'
+        );
+
+        await document.fonts.load(
+            '600 40px "Cairo"'
+        );
+
+        await document.fonts.load(
+            '700 40px "Cairo"'
+        );
+
+        await document.fonts.load(
+            '800 40px "Cairo"'
+        );
+
+        await document.fonts.load(
+            '900 100px "Cairo"'
+        );
+
+        await document.fonts.ready;
+
+    } catch (error) {
+
+        console.warn(
+            "Font loading warning:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   انتظار الرسم
+========================================================= */
+
+function waitFrame() {
+
+    return new Promise(
+        resolve => {
+
+            requestAnimationFrame(
+                () => {
+
+                    requestAnimationFrame(
+                        () => {
+
+                            resolve();
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   تجهيز التصميم للتصدير
+========================================================= */
+
+function prepareCanvasForExport() {
+
+    /*
+     * إجبار اتجاه الكتابة العربية.
+     */
+
+    canvas.setAttribute(
+        "dir",
+        "rtl"
+    );
+
+    canvas.style.direction =
+        "rtl";
+
+    canvas.style.textRendering =
+        "geometricPrecision";
+
+    canvas.style.webkitFontSmoothing =
+        "antialiased";
+
+
+    /*
+     * منع أي عنصر خارجي من التأثير
+     * على التصدير.
+     */
+
+    canvas.querySelectorAll(
+        "[title]"
+    ).forEach(
+        element => {
+
+            element.removeAttribute(
+                "title"
+            );
+
+        }
+    );
+
+
+    /*
+     * إزالة أي fallback قديم إن كان
+     * موجودًا في HTML.
+     */
+
+    canvas.querySelectorAll(
+        ".logo-fallback"
+    ).forEach(
+        element => {
+
+            element.remove();
+
+        }
+    );
+
+
+    prepareImagesForExport();
+
+}
+
+
+/* =========================================================
+   استعادة التصميم بعد التصدير
+========================================================= */
+
+function restoreCanvasAfterExport() {
+
+    canvas.style.direction =
+        "";
+
+    canvas.style.textRendering =
+        "";
+
+    canvas.style.webkitFontSmoothing =
+        "";
+
+}
+
+
+/* =========================================================
+   إنشاء PNG النهائي
 ========================================================= */
 
 async function createPNG() {
@@ -642,51 +809,82 @@ async function createPNG() {
     const renderer =
         await loadHtml2Canvas();
 
+
     /*
-       الخط أولًا.
-    */
+     * الخطوط أولًا.
+     */
 
     await waitForFonts();
 
+
     /*
-       الصور الأصلية.
-    */
+     * تجهيز الصور.
+     */
+
+    prepareCanvasForExport();
 
     await waitForImages(canvas);
 
-    await waitFrame();
 
     /*
-       إنشاء النسخة.
-    */
+     * إعطاء المتصفح فرصة أخيرة
+     * لتثبيت Cairo والـ layout.
+     */
 
-    const clone =
-        createExportClone();
+    await waitFrame();
+
+
+    /*
+     * نتأكد أن القياس الحقيقي
+     * للتصميم هو 1700×1000.
+     */
+
+    const rect =
+        canvas.getBoundingClientRect();
+
+
+    if (
+        Math.round(rect.width) !==
+        CONFIG.canvasWidth ||
+        Math.round(rect.height) !==
+        CONFIG.canvasHeight
+    ) {
+
+        /*
+         * لا نغير العرض الظاهر للمستخدم،
+         * وإنما نثبت قياس العنصر نفسه.
+         */
+
+        canvas.style.width =
+            `${CONFIG.canvasWidth}px`;
+
+        canvas.style.height =
+            `${CONFIG.canvasHeight}px`;
+
+    }
+
+
+    /*
+     * =====================================================
+     * أهم تغيير:
+     *
+     * foreignObjectRendering = true
+     *
+     * هذا يجعل المتصفح نفسه يرسم النص العربي
+     * بدل اعتماد html2canvas على محلل النص القديم.
+     *
+     * النتيجة:
+     * الحروف العربية لا تتقطع ولا تتراكب.
+     * =====================================================
+     */
+
+    let rendered;
 
     try {
 
-        /*
-           ننتظر صور النسخة.
-        */
-
-        await waitForImages(clone);
-
-        await waitForFonts();
-
-        await waitFrame();
-
-        /*
-           هنا أهم تغيير:
-           foreignObjectRendering = true
-
-           هذا يجعل المتصفح يرسم HTML
-           والنص العربي كما هو في المعاينة،
-           بدل إعادة تحليل الحروف يدويًا.
-        */
-
-        const rendered =
+        rendered =
             await renderer(
-                clone,
+                canvas,
                 {
 
                     width:
@@ -719,113 +917,57 @@ async function createPNG() {
                     foreignObjectRendering:
                         true,
 
-                    onclone:
-                        async clonedDocument => {
+                    letterRendering:
+                        true,
 
-                            /*
-                               منع fallback نهائيًا.
-                            */
+                    imageSmoothingEnabled:
+                        true,
 
-                            clonedDocument
-                                .querySelectorAll(
-                                    ".logo-fallback"
-                                )
-                                .forEach(
-                                    element => {
-                                        element.remove();
-                                    }
-                                );
-
-                            /*
-                               التأكد من اتجاه النص.
-                            */
-
-                            const clonedCanvas =
-                                clonedDocument
-                                    .querySelector(
-                                        ".design-canvas"
-                                    );
-
-                            if (clonedCanvas) {
-
-                                clonedCanvas.style.direction =
-                                    "rtl";
-
-                                clonedCanvas.style.width =
-                                    `${CONFIG.canvasWidth}px`;
-
-                                clonedCanvas.style.height =
-                                    `${CONFIG.canvasHeight}px`;
-
-                                clonedCanvas.style.fontFamily =
-                                    '"Cairo", Arial, sans-serif';
-                            }
-
-                            /*
-                               الانتظار حتى يثبت الخط.
-                            */
-
-                            if (
-                                clonedDocument.fonts &&
-                                clonedDocument.fonts.ready
-                            ) {
-
-                                await clonedDocument.fonts.ready;
-
-                            }
-
-                        }
+                    imageSmoothingQuality:
+                        "high"
 
                 }
             );
 
-        /*
-           إنشاء الصورة النهائية.
-        */
-
-        const output =
-            document.createElement("canvas");
-
-        output.width =
-            CONFIG.exportWidth;
-
-        output.height =
-            CONFIG.exportHeight;
-
-        const context =
-            output.getContext("2d");
-
-        context.imageSmoothingEnabled =
-            true;
-
-        context.imageSmoothingQuality =
-            "high";
-
-        context.drawImage(
-            rendered,
-            0,
-            0,
-            CONFIG.exportWidth,
-            CONFIG.exportHeight
-        );
-
-        return output;
-
     } finally {
 
-        clone.remove();
+        restoreCanvasAfterExport();
 
     }
+
+
+    /*
+     * فحص المقاس.
+     */
+
+    if (
+        rendered.width !==
+            CONFIG.exportWidth ||
+        rendered.height !==
+            CONFIG.exportHeight
+    ) {
+
+        throw new Error(
+            `مقاس التصدير غير صحيح: ${rendered.width}×${rendered.height}`
+        );
+
+    }
+
+
+    return rendered;
+
 }
 
 
 /* =========================================================
-   FILENAME
+   تنظيف اسم الملف
 ========================================================= */
 
-function cleanName(text) {
+function cleanName(
+    text
+) {
 
-    return String(text)
+    return String(text || "")
         .replace(
             /[\\/:*?"<>|]/g,
             ""
@@ -835,8 +977,13 @@ function cleanName(text) {
             "-"
         )
         .trim();
+
 }
 
+
+/* =========================================================
+   اسم الملف
+========================================================= */
 
 function getFilename() {
 
@@ -855,14 +1002,17 @@ function getFilename() {
         cleanName(title) +
         ".png"
     );
+
 }
 
 
 /* =========================================================
-   DOWNLOAD
+   تنزيل PNG
 ========================================================= */
 
-function downloadCanvas(canvasElement) {
+function downloadCanvas(
+    canvasElement
+) {
 
     return new Promise(
         (resolve, reject) => {
@@ -879,13 +1029,21 @@ function downloadCanvas(canvasElement) {
                         );
 
                         return;
+
                     }
 
+
                     const url =
-                        URL.createObjectURL(blob);
+                        URL.createObjectURL(
+                            blob
+                        );
+
 
                     const link =
-                        document.createElement("a");
+                        document.createElement(
+                            "a"
+                        );
+
 
                     link.href =
                         url;
@@ -896,43 +1054,66 @@ function downloadCanvas(canvasElement) {
                     link.style.display =
                         "none";
 
-                    document.body.appendChild(link);
+
+                    document.body.appendChild(
+                        link
+                    );
+
+
+                    /*
+                     * النقر مرة واحدة فقط.
+                     */
 
                     link.click();
 
+
                     link.remove();
 
-                    setTimeout(() => {
 
-                        URL.revokeObjectURL(url);
+                    setTimeout(
+                        () => {
 
-                        resolve();
+                            URL.revokeObjectURL(
+                                url
+                            );
 
-                    }, 1500);
+                            resolve();
+
+                        },
+                        2000
+                    );
 
                 },
+
                 "image/png"
             );
 
         }
     );
+
 }
 
 
 /* =========================================================
-   EXPORT BUTTON
+   التصدير
 ========================================================= */
 
 exportButton.addEventListener(
     "click",
     async () => {
 
-        if (exportButton.disabled) {
+        if (
+            exportButton.disabled
+        ) {
+
             return;
+
         }
+
 
         const original =
             exportButton.innerHTML;
+
 
         try {
 
@@ -945,14 +1126,25 @@ exportButton.addEventListener(
                 جاري تجهيز 8500×5000...
                 `;
 
+
+            /*
+             * تحديث نهائي قبل التصوير.
+             */
+
             updateDesign();
+
+
+            /*
+             * تصدير مباشر من نفس التصميم.
+             */
 
             const finalCanvas =
                 await createPNG();
 
+
             /*
-               فحص المقاس.
-            */
+             * فحص صارم.
+             */
 
             if (
                 finalCanvas.width !==
@@ -962,26 +1154,32 @@ exportButton.addEventListener(
             ) {
 
                 throw new Error(
-                    "مقاس التصدير غير صحيح."
+                    "فشل التحقق من أبعاد PNG."
                 );
+
             }
+
 
             await downloadCanvas(
                 finalCanvas
             );
 
+
         } catch (error) {
 
             console.error(
-                "Export error:",
+                "FINAL EXPORT ERROR:",
                 error
             );
+
 
             alert(
                 "حدث خطأ أثناء تصدير التصميم.\n\n" +
                 "تأكد من وجود الشعارات داخل:\n" +
-                "assets/logos/"
+                "assets/logos/\n\n" +
+                "ثم حاول مرة أخرى."
             );
+
 
         } finally {
 
@@ -990,6 +1188,7 @@ exportButton.addEventListener(
 
             exportButton.innerHTML =
                 original;
+
         }
 
     }
@@ -997,41 +1196,55 @@ exportButton.addEventListener(
 
 
 /* =========================================================
-   HELP MODAL
+   المساعدة
 ========================================================= */
 
 const helpButton =
-    document.getElementById("helpBtn");
+    document.getElementById(
+        "helpBtn"
+    );
 
 const helpModal =
-    document.getElementById("helpModal");
+    document.getElementById(
+        "helpModal"
+    );
 
 const closeModal =
-    document.getElementById("closeModal");
+    document.getElementById(
+        "closeModal"
+    );
 
 const modalOverlay =
-    document.getElementById("modalOverlay");
+    document.getElementById(
+        "modalOverlay"
+    );
 
 
 function openModal() {
 
-    helpModal.classList.add("active");
+    helpModal.classList.add(
+        "active"
+    );
 
     helpModal.setAttribute(
         "aria-hidden",
         "false"
     );
+
 }
 
 
 function closeHelp() {
 
-    helpModal.classList.remove("active");
+    helpModal.classList.remove(
+        "active"
+    );
 
     helpModal.setAttribute(
         "aria-hidden",
         "true"
     );
+
 }
 
 
@@ -1040,10 +1253,12 @@ helpButton.addEventListener(
     openModal
 );
 
+
 closeModal.addEventListener(
     "click",
     closeHelp
 );
+
 
 modalOverlay.addEventListener(
     "click",
@@ -1055,8 +1270,13 @@ document.addEventListener(
     "keydown",
     event => {
 
-        if (event.key === "Escape") {
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
             closeHelp();
+
         }
 
     }
@@ -1064,7 +1284,7 @@ document.addEventListener(
 
 
 /* =========================================================
-   CTRL + S
+   Ctrl + S
 ========================================================= */
 
 document.addEventListener(
@@ -1072,13 +1292,16 @@ document.addEventListener(
     event => {
 
         if (
-            (event.ctrlKey || event.metaKey) &&
-            event.key.toLowerCase() === "s"
+            (event.ctrlKey ||
+             event.metaKey) &&
+            event.key.toLowerCase() ===
+                "s"
         ) {
 
             event.preventDefault();
 
             exportButton.click();
+
         }
 
     }
@@ -1086,10 +1309,14 @@ document.addEventListener(
 
 
 /* =========================================================
-   INITIALIZE
+   التهيئة
 ========================================================= */
 
 function initialize() {
+
+    /*
+     * القيم الافتراضية.
+     */
 
     subjectInput.value =
         "islamic";
@@ -1099,6 +1326,7 @@ function initialize() {
 
     titleInput.value =
         "عنوان الدرس";
+
 
     state.subject =
         "islamic";
@@ -1115,21 +1343,51 @@ function initialize() {
     state.title =
         "عنوان الدرس";
 
+
+    /*
+     * تحديث الواجهة.
+     */
+
     updateDesign();
+
+
+    /*
+     * تجهيز الشعارات بدون أي fallback.
+     */
+
+    canvas.querySelectorAll(
+        "img"
+    ).forEach(
+        image => {
+
+            image.setAttribute(
+                "alt",
+                ""
+            );
+
+        }
+    );
+
 }
 
 
+/* =========================================================
+   التشغيل
+========================================================= */
+
 if (
-    document.readyState === "loading"
+    document.readyState ===
+    "loading"
 ) {
 
     document.addEventListener(
         "DOMContentLoaded",
-        initialize
+        initialize,
+        { once: true }
     );
 
 } else {
 
     initialize();
 
-    }
+}
