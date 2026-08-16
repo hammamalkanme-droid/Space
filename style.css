@@ -962,18 +962,78 @@ img {
 
 .project-logo {
     top: 6%;
+/* =========================
+   الشعارات — توزيع نهائي
+========================= */
 
-    right: 5%;
+.canvas-logo {
+    position: absolute;
 
-    width: 10%;
+    z-index: 20;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
 }
 
+
+/* شعار فضاء — أعلى اليمين */
+
+.project-logo {
+    top: 5.5%;
+    right: 5.5%;
+
+    width: 8.5%;
+    max-width: 145px;
+}
+
+
+/* شعار الفريق — أعلى اليسار */
+
 .team-logo {
-    top: 6%;
+    top: 5.5%;
+    left: 5.5%;
 
-    left: 5%;
+    width: 8.5%;
+    max-width: 145px;
+}
 
-    width: 10%;
+
+/* الصور */
+
+.canvas-logo img {
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* البديل في حالة عدم وجود الصورة */
+
+.logo-fallback {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 18%;
+
+    background: rgba(255, 255, 255, 0.82);
+
+    border: 1px solid rgba(0, 0, 0, 0.06);
+
+    color: var(--primary);
+
+    font-size: clamp(16px, 2vw, 35px);
+
+    font-weight: 900;
 }
 
 .canvas-logo img {
