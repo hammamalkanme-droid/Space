@@ -1837,3 +1837,77 @@ body {
     }
 
         }
+/* =========================================================
+   EXPORT SAFETY — مهم جدًا
+========================================================= */
+
+/*
+   لا نريد ظهور:
+   ف
+   ★
+   أو أي نص بديل بجانب الشعارات.
+*/
+
+.logo-fallback {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+
+/*
+   الشعارات الحقيقية فقط.
+*/
+
+.canvas-logo {
+    overflow: hidden;
+}
+
+.canvas-logo img {
+    display: block !important;
+    visibility: visible;
+    opacity: 1;
+}
+
+
+/*
+   ضمان اتجاه النص العربي.
+*/
+
+.design-canvas,
+.design-canvas * {
+    direction: rtl;
+}
+
+
+/*
+   منع المتصفح من كسر الكلمات العربية
+   بطريقة غريبة أثناء التصدير.
+*/
+
+.lesson-title,
+.unit-display,
+.subject-badge {
+    unicode-bidi: plaintext;
+    text-rendering: geometricPrecision;
+}
+
+
+/*
+   تحسين رسم النص العربي.
+*/
+
+.lesson-title {
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+
+/*
+   طبقة التصدير لا يجب أن تغيّر
+   أبعاد التصميم.
+*/
+
+.design-canvas {
+    contain: layout paint style;
+}
